@@ -190,7 +190,8 @@
 
         .resume-paper {
             width: 210mm;
-            height: 445.5mm;
+            height: auto;
+            min-height: 297mm;
             background-color: #020c1b;
             position: relative;
             box-shadow: 0 0 50px rgba(0, 255, 65, 0.3);
@@ -254,9 +255,8 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 14px;
-            color: #020c1b;
+            color: #0a1520;
             font-weight: bold;
-            mix-blend-mode: difference;
         }
 
         .experience-card {
@@ -544,33 +544,58 @@
                         </div>
                     </div>
 
-                    {/* Mobile Menu Overlay */}
-                    <div className={`fixed inset-0 lg:hidden ${isMenuOpen ? 'flex' : 'hidden'} flex-col z-[200] pt-24 pb-12 overflow-y-auto bg-[#001219]`} style={{ backgroundColor: '#001219' }}>
-                        <button
-                            onClick={() => setIsMenuOpen(false)}
-                            className="absolute top-4 right-4 w-10 h-10 border border-retro-dim flex items-center justify-center text-retro-cyan hover:bg-retro-dim/20 transition-colors"
-                        >
-                            <span className="material-symbols-outlined">close</span>
-                        </button>
+                    {/* Mobile Menu Backdrop */}
+                    <div
+                        className={`fixed inset-0 bg-black/80 transition-opacity duration-300 lg:hidden z-[104] ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                        onClick={() => setIsMenuOpen(false)}
+                    />
 
-                        <div className="flex flex-col items-center gap-8 w-full px-4">
-                            {navLinks.map((link) => (
+                    {/* Mobile Menu Drawer - Full Screen Slide-in */}
+                    <div
+                        className={`fixed top-0 right-0 h-full w-full max-w-[320px] transform transition-transform duration-300 ease-out lg:hidden z-[105] flex flex-col ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+                        style={{ background: '#0a1628' }}
+                    >
+                        {/* Drawer Header */}
+                        <div className="flex items-center justify-between px-6 py-5 border-b-2 border-retro-cyan/40" style={{ background: '#0d1f35' }}>
+                            <span className="font-pixel text-retro-cyan text-base tracking-wider">MENU</span>
+                            <button
+                                onClick={() => setIsMenuOpen(false)}
+                                className="w-10 h-10 border-2 border-retro-cyan/60 rounded-lg flex items-center justify-center text-retro-cyan hover:bg-retro-cyan hover:text-[#0a1628] transition-colors"
+                            >
+                                <span className="material-symbols-outlined text-2xl">close</span>
+                            </button>
+                        </div>
+
+                        {/* Drawer Links - Large Layout */}
+                        <div className="flex flex-col py-4 overflow-y-auto flex-1">
+                            {navLinks.map((link, idx) => (
                                 <Link
                                     key={link.path}
                                     to={link.path}
-                                    className="text-2xl font-terminal text-slate-300 hover:text-retro-green transition-colors"
+                                    className="px-6 py-4 text-xl font-terminal text-slate-200 hover:text-retro-green hover:bg-retro-green/15 transition-all flex items-center gap-4 border-l-4 border-transparent hover:border-retro-green"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
-                                    {link.label}
+                                    <span className="text-retro-cyan text-sm font-code">0{idx + 1}</span>
+                                    <span>{link.label}</span>
                                 </Link>
                             ))}
-                            <div className="flex flex-col gap-4 mt-8 w-full max-w-[280px] sm:hidden border-t border-retro-dim pt-8">
-                                <Link to="/resume" className="text-center font-code text-sm py-3 border border-retro-cyan text-retro-cyan hover:bg-retro-cyan hover:text-retro-bg transition-colors pixel-btn font-bold" onClick={() => setIsMenuOpen(false)}>
+
+                            <div className="h-px bg-retro-cyan/20 mx-6 my-4"></div>
+
+                            <div className="px-6 py-2 flex flex-col gap-3">
+                                <Link to="/resume" className="text-center font-code text-base py-3 border-2 border-retro-cyan text-retro-cyan hover:bg-retro-cyan hover:text-[#0a1628] transition-colors rounded-lg font-bold" onClick={() => setIsMenuOpen(false)}>
                                     [ RESUME ]
                                 </Link>
-                                <a href="https://www.linkedin.com/in/718752332/" target="_blank" className="text-center font-code text-sm py-3 border border-retro-green text-retro-green hover:bg-retro-green hover:text-retro-bg transition-colors pixel-btn font-bold">
+                                <a href="https://www.linkedin.com/in/718752332/" target="_blank" className="text-center font-code text-base py-3 border-2 border-retro-green text-retro-green hover:bg-retro-green hover:text-[#0a1628] transition-colors rounded-lg font-bold">
                                     [ CONNECT ]
                                 </a>
+                            </div>
+                        </div>
+
+                        {/* Drawer Footer */}
+                        <div className="px-6 py-4 border-t-2 border-retro-cyan/40" style={{ background: '#0d1f35' }}>
+                            <div className="text-xs font-code text-retro-dim text-center">
+                                DTA_SYSTEMS // v2.6
                             </div>
                         </div>
                     </div>
@@ -654,7 +679,7 @@
                     color: "text-retro-amber"
                 },
                 {
-                    title: "Applied Math & Data Science (MDS)",
+                    title: "Applied Math & Data Science Club (MDS - FTU2)",
                     role: "Business Intelligence Specialist",
                     period: "Nov 2024 - Present",
                     desc: "Analyzed banking customer data to identify behavioral patterns. Built interactive Power BI dashboards for customer segmentation and churn analysis. Developed Python models to predict customer behavior.",
@@ -730,12 +755,12 @@
                 {
                     title: "Gold Price Prediction",
                     businessDesc: "Data analysis & trend insights for informed decision-making.",
-                    techDesc: "Stacked LSTM with 6,000+ data points & 97.88% accuracy.",
+                    techDesc: "Stacked LSTM with 6,000+ data points & 80+% accuracy.",
                     cat: "Finance",
                     techCat: "AI/ML",
                     img: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAFBAlgDASIAAhEBAxEB/8QAHAABAQACAwEBAAAAAAAAAAAAAAIFBgEDBwQI/8QATBAAAQMDAQMHCQcCAwYGAQUAAQACAwQFERIGEyEHMUFRUnGRFBYiMlRhkqHRMzZidIGxs0PBFSNCJFNVcoKTCBc0Y3OiJSaUstLw/8QAGAEBAQEBAQAAAAAAAAAAAAAAAAIDAQT/xAArEQEBAAIBAwIEBgMBAAAAAAAAAQIRIRIxQQPwIlFxsRNhocHR4TKBkfH/2gAMAwEAAhEDEQA/AP1SiIgIiICImUBEymUBEymUBEymUBEymUBEymUBEymUBEymUBEymUBEyhQaxVbXtFyrqS1We6XbyBwjq5aRsYZE/SHaAXvbrcGlpIbnGR08FkKnaSz0twpaCsuNLTV9U1roqWaVrJXauYaSc5JyB1kEBabeNkLw2DaS3W6Cgrbbeah9ax89XLTS0k72gOPoNOtoc0OGC08SOor5K7YO9vpLpbI5qCopLwyiFTXzOeJ4HQRxscWs0nXnd6m5c3S5xJyg2+n2ztQpa2ouVRDboaa4S24OqZWtEkjDj0e/icc+AV2WnaqluOx0m0bYpG0bI55S0FrnFsTngkEHBzoJHeFrEOyF6t19ivFE231U8Nyr6htPNK6NphqdGHB4Y7S9ugcMEEOcMrJbPbL19u5Lpdnah1H/AIg+mqosw5EIdI6QtxkZDRrHRwQdlp5QrXUuDbrBUWMvpIq6J1xdE1kkMjgxrg9j3NB1OaCCQcuHWslTbWWuYV87qykjt1LDFMat1SzSWyasEjOWjLcDPP0LWWcnFPTbN22mpoY33Rj7d5XPUzyz646eZkjmNL9RDctcQ0ADOOZdm0extyr9oLjdaSSkLjU2+rpoZnO0yup95qZJgHSDrBDhnBAOOCDZZtr9nobZBcJrzQMop3FkUzpgGvI5wO7p6uld20e0FJYtmay+TB9RR08O/wAU+lxkbwxpyQDnI6cLUdotmL1eLtbL3LS0/lcFNNSS0MN3qKZoa97HB7Z42Ak+hhzS3ByOrjkdoNk5azksqNmLZFTUkrqEUsUe+e6KPGOAeRqIGOBIyg+ml27tTZq2nvYksVXRujbJDcXxtyJGvcwsc1zmuyI38xzlpGFk4dp7HNcobfFdqJ1dMwPjgEzdbgW6hgdZbxxz44rBVewtFDcLRUWmBodDdGV9ZLVTSTSyhkEsbfTeXOJaXjAJwBnCxNJsJU0209RPPTRV9DNdjdWTyXSpiMLi4OGaYAxvc0jAdkZGMjhxDYKzbuzx3ymtVFU09bVSOnZKIZ2f5Bijc86+PD1dPuPOvtj2ss7ILSa64UVJU3KGOaGB9QxxcHgY0kHDhk41DgehaPbdhb9T+btHK20iiscVZBHUskfvagTROYxxboww5ILxqOTxHUslstsxfdmKunkpYrdWtnt1DRVRlnfG6B0EZYSwhjtbDkkA6eOevgGXt23tmuzQbTUR1Dm3D/D5WPlbG5jtb2asOPpZLCQBxI6FlYNp7HPWVlJDd6GSpo2ufURNnaXRNb6xIz0dPV0rVI9lbzohpJBR+TUu0Bu0U4ncXSRPmkkc0s0ei4awOcg8TwWLptgb2LfbbXMbayls8FdHTVTHvMtU6eN7G626QIxh+p+C7U4AhB6HZtorPe5Jo7RdKOtfCGukbTzNeWh3qk46Dx4+4rGX3bGjs774ZaeeaGzUTayrfFpJGrVpjAJGXFrS7qAI618uz+zFTbL3Zat3kzYKKxttkjY85MgdGRgY9XDXePMsRtLszcbhJt9bqSMf/nqCJ9NPJkRNlEZicxzgCRjSx3NzOPUUG3bR7Qw2T/D4zTVNZWXCYwUtLThuuR4Y554vc1oAa1xJJHMsVfdsp7Na4bhVbM3jcPcyJ4D6YOikfKImtIMvHLnN4jIw4HPOui80N6v9oNLetlbBVRtka4U89xe8OwD6TX7j0HA46OYniOn4Idjbv/5eGyT1UL6o3GKriY+aSRlNCyrZMIWyOGp+ljCASOJ4cAgzdLtpTu2qodnq+3V1vudXSOq2Nm3bmNAc4aC5j3DUQxzgB0A8c8F8tn5Q7bd7fHcKSmqxQm6/4U6aVrW4ccBkmMnLHOcwA8D6YOF8+12w8+0e0FbVGudQxSUEEEFTBxnhlZLK5xAIxgskLf8AqKx9TslWUdprbRTQMMFy2gp6mIwZ001LHuXZdkcCBTloHHi5qD0zK17avayg2YntEdxZORcqsUjHxtBbE4gnU/JGG8OJ486yF2tguJpiayupdzJvMUsxj1+52Oce5YTbfZc7TVtnbKWeQwPqRVAkhxZJTyRDTw5w54PRjGUH0W/bG2120t7ssYmZLaImS1FQ8AQkOzkNdnJLcelwGF8MHKFbZ9jKjaOKjuBhgmZA6kcxrZ9b3sazgXaRqEkbhk+q4H3LXqnk5uUcFfR0NxD4rhb4KCrrJXaZ5C6plkqpcBpGpzJSG9GT1BL3yd3WSG90dFdH1lHdWUj5XVsgjkjlgnYfR3UbQAYm4zzgsb3gM7JyhQMf5L/g10/xcV7Le63nciRsj4XTNdqMmgtLGOOQ7nGOdbLQXQTR0za+B1trKgv3dJUyxmV2nnI0OcDw48CcA8cLS9q9gKeSjtjLJaqKtbFdRcKyC41L3eV4gki9OR4kc4jUzGc8G9C2Gx2+oo4rVEywWe3QQmbXHTza/JweYxf5bc6jnV6uPeg7dqNo3WCKSd9ouVZSQwuqKiemEZbCxuckhz2lxABOGgnCyMtxZ/hH+IUcM1dG6ISxR04BfKCARpDiBxB6SFq/KFar/e5qShoaWiqbA5pdXQSVjqeSpOfRiJEbsRHncBxdwbzZzsJkusbZxFQURYymYYI/KXN1TcdTHHRhrR6OHAHOTwGOIfBbdqhdNlqS9W203Gp8pcWNpGiIStIc5p1EvDAAWnjqWKq+Uq1U1rbVuoriZWvqWVFKGMElN5OMzl+XhpDRg+iXF2RpysfZLRtpaOTr/B6CC0093ZK5rJxWOe0Rvkc9zxmLg8B2GggjPE8OByVNsqfMhlsfZLUyuge6SnbVy+WsbKTk1DnujBc8lznHhknhnjwDZrZd4LlWV0FI2RzKRzY3zEYYXluosHSS0FueHAnHOCBkV59Y9jrlZ9sIamnqWm1REu3r6mQzStMIaYnR40HMuqYvzkucRheg5QETKZQETKZQETKZQETKZQETKZQETKZQETKZQETKZQETKZQEREBERAReeyUG1Enkz6YV9M3y10joJatr9DMxhoLtZy0gSE8+C7AYeBHFPbdrGug1y1eBI0nVVtOJMx65HceMRxLhnRqHojhpDYrvRU9w2moYKyPewto53hhcQM64hnAPUSqbs5aXNDm2xmk8RmQ/VcysnG2cDnzMMRoZt2wR4Lf8yHOXZ457hj3qbt5yf7N/gBtG53Q1+WiXVq92jhjCCvNq1/8AC2f9w/VcHZq18MWuPn/3p+qx3/6869mPCoX22jzs/wAQi/xg2LyLjr8lE28zg4xq4c+EHb5t2r/hbP8AuH6p5t2r/hbP+4fqsbylVle22UlrtBuDa24zbsy0DRvoImjU97S4hoPBreJ/1rAUe1F5u8e4nnNorDbxu6Y0pMtRVaZGyhricDRIzAAz18zgg3Hzbtf/AAtn/cP1Tzatf/C2f9w/VaXbdr7hS2y3wy1ra2epp7eYJn0rtUr31JjqAcdLG6c5xjOSuiDay73a5VdIRMynZV0csZEZjliHlzI3xP08PV4lpJOM54FBvfm3av8Ahkf/AHD9U82rX/wtn/cP1Wu7UUt+uO3TKW0Vs1JDFR08288oeyOM+UO1ndhpbKSxunS4jHBY1u0G0cVpobnMI56qot09TpbSvDacb2nbxYHZfpY57yOc6TjAyg3Tzatf/C2f9w/VPNq1/wDC2f8AcP1WnXPaq909fa4LZW0FZSyxNkZWzR7qOskMxa6MYzgtaB6uSS4HmBXp/HrQYHzbtf8Awtn/AHD9VUWzVme3PkDAQcEFzuHzWc49a6YA7/Mw4D0z0IMUzZizlufIY/id9VXmvZvYY/id9VlYw/QPSHT0e9Vh/aHggxHmvZvYY/id9U817N7DH8Tvqsvh/aHgmH9oeCDEea9m9hj+J31TzXs3sMfxO+qy+H9oeCYf2h4IMR5r2b2GP4nfVPNezewx/E76rL4f2h4Jh/aHggxHmvZvYY/id9U817N7DH8Tvqsvh/aHgmH9oeCDDebFn1geQx83ad9VXmvZvYY/id9VlcP3g9Ic3Uqw/tDwQYjzXs3sMfxO+qea9m9hj+J31WXw/tDwTD+0PBBiPNezewx/E76p5r2b2GP4nfVZfD+0PBMP7Q8EGI817N7DH8TvqnmvZvYY/id9Vl8P7Q8Ew/tDwQYjzXs3sMfxO+qea9m9hj+J31WXw/tDwTD+0PBBhn7MWcMcfIY+btO+q5Gy9mx/6GP4nfVZaQP0O9Icx6FQD8D0h4IMR5r2b2GP4nfVPNezewx/E76rL4f2h4Jh/aHggxHmvZvYY/id9Vx5r2b2GP4nfVZjD+0PBMP7Q8EGI817N7DH8TvqnmvZvYY/id9Vl8P7Q8Ew/tDwQYjzXs3sMfxO+qea9m9hj+J31WXw/tDwTD+0PBBiPNezewx/E76qRsxZ9bh5DHzD/U76rM4f2h4KQH7x3pDmHQgxXmvZvYY/id9U817N7DH8Tvqsvh/aHgmH9oeCDEea9m9hj+J31TzXs3sMfxO+qy+H9oeCYf2h4IMR5r2b2GP4nfVPNezewx/E76rL4f2h4Jh/aHggxHmvZvYY/id9U817N7DH8Tvqsvh/aHgmH9oeCDEea9m9hj+J31Uv2Ys4bnyGP4nfVZnD+0PBTIH6PWHOOj3oMV5r2b2GP4nfVPNezewx/E76rL4f2h4Jh/aHggxHmvZvYY/id9U817N7DH8Tvqsvh/aHgmH9oeCDEea9m9hj+J31TzXs3sMfxO+qy+H9oeCYf2h4IMR5r2b2GP4nfVPNezewx/E76rL4f2h4Jh/aHggxHmvZvYY/id9U817N7DH8TvqsuQ4Di4eCxWyt7h2l2eoLxRNkjpq2ITRtlaA4A9eCQg627MWcl3+wx8D2nfVV5r2b2GP4nfVZVgfl/pDn6vcqw/tDwQYjzXs3sMfxO+qea9m9hj+J31WXw/tDwTD+0PBBrtFQU1t2rZFRRbmOSie5zQ4kEiRuDgn3nxRfS/PnhBkg/wCwSdH/ALjEQZtERAREQYeo+9lH+Rn/AJIVlKf7CL/lH7LF1H3so/yM/wDJCua2xW+6tp5a6F0j2RhrSJXs4c/+khcu/Dl3rhl8rg9C1/zNsfssn/7mX/8Asvot+zdrt1XHU0lO9kzMgOM8jsZGDwLiFMufmfr/AEiXPzJ/3+n0Xu9UFlihkuUxibNJuow2N0jnu0l2A1oJ9VrjzdC7aa6UFTSx1NPWU8lPJEJmyNkGksIBDufm4jj71jdqLCb5UWcmeSGGjqnTyGGZ8UjgYZI8Newgji8dPMCtWuPJvCaWsZbGUdOTXwVELA3SHQRQRxCF7tLjjLC4cHDIBIPFW0b1X3OjoIopKqoYxsr2Rs45Li97WNwBzjU5vHmGVy25UhpmTvmEUbw5zd96BIbnPA8eGF57Fye1cNRbzCLc6KJ1E8uqHPllphBUGVzYXaRwcCR/px1EYA+20bEVVBUwmdlrrI30gpXvmYS+nw+V2qLLSPSEoyDp4t5z0ButFdKGupaWppKuCWCqaHQva8YkBGeHXwQXOjN0bbmztdWGJ8u7HHDWloOTzA5e3gePFecxcnVXrsrp/ItFHSwUr4oJnRNYYpNe9YQwnU7gSPR4tHpELLbH7HVdk2lFfObcYo6aop99CxwnqTJO2UPlJGMgNIPPxOeY4AbHR7T2esuU1BBXMNVCZGuY4OZksdpeGkgB2lxAOCcZX3R3GleyR++a2NjxGXv9FpJAI0k8CMOHELS6rk8p6qirfKiyorJ699Q0zSSPijhfVtmcxrCdLS5rQDgcT7lzU7F1DLw+upobTVQeVSysoqphETWPhgjDhgEB7dyQOGNLyMhBvbZo3SvibIwyMALmBwy3PNkdCmn5pP8AnK0vZvYya07W1d0nlbO18lRIybfuEhErw7Q9mnBDeABLj6owAt0p+aT/AJyguL1B3n91SmL1B3n91SAiIgIiICIiAiIgn+qO5Up/qjuVICIiAiIgIiICIiDiT7N3cVyOYLiT7N3cVyOYICIiAiIgIiICIiApH2ju4KlI+0d3BBSIiAiIgIiICIiApk9T9R+6pTJ6n6j90FIiICIiAiIgIiINc5QNpKLZbZmor7g6RsbiKdhYwuO8k9FgwPeQtf5BJx/5Y2m3SamV9qabfWwvaWuhmZxLDkdTmnI4cVfKtaxtFVbKWJ0+4jnujauRwZqy2nY6XTjI53Boz0ZXFDfYLPdOUuXhNPbJGXCSDOCWeRRlvH37pw/RBvgmjZMInSMbI8ktYXAF2AM4HTjIXavNbvdBUcp/J0Q3R5bQ3CfTnOMxQHGV6UgIiIMLJ98YPyEn8jEST74wfkJP5GIgzSIiAi6G1lM5jXtqISxz92HB4wXdnv8AcuRVU5xieI5eYx6Y4uHO3v4Hggxs/wB7qL8jP/JCsmIABhr5AOgB3MsZP97qL8jP/JCswg6tyP8AeSfEuHRYLf8AMk4ntLuUv52d/wDYoI3I/wB5J8Sbkf7yT4l2og6tyP8AeSfEm5H+8k+JdqIOrcj/AHknxJuR/vJPiXaiDq3I/wB5J8Sbkf7yT4l2og6tyP8AeSfErYwMbhvfxVIgmL1B3n91SmL1B3n91SAiIgIiICIiAiIgn+qO5Up/qjuVICIiAiIgIiICIiDiT7N3cVyOYLiT7N3cVyOYICIiAiIgIiICIiApH2ju4KlI+0d3BBSIiAiIgIiICIiApk9T9R+6pTJ6n6j90FIiICIiAiIgLUuVPbOLYLYurv0tP5UYHxsbBr0mQueAQDg9GT+i21aDyq2mk2ol2f2auDXmlr6mZ82g4IjZTSgke/U9mEHRZtobfthtvs5VW5+uOGySXFwwfQ8odGyMZxz4ZKP0Wo8oVNJZrvyt10kjNFz2YikiDc5aWslhwffkj9Cs5yMWuO27UbfQw08cNPS3JtHTNa3AZEGmUMHU0b7OObite29q5L7dK6KV0ei90cVFQwsadTohXsYS49JcCXDHQQFNyksl8oyzmNkvlNsv9svfKJye1dsrYamO2UXkdQWOzuZZo3s0O6iXRYHXwxzhe9DmX5n2X5PKzk45K9ptoapzn189DQ3I083CSCogeZntdjmGotAxx4HK9T5Btp7vtZsGK7aGIx3COrngcHDDsNdkahgYI1aeb/SFS3oqIiDCyffGD8hJ/IxEk++MH5CT+RiIM0iIg0TzJq5Z6eqlraeKrjqnzudTROYz0t2AWs1YDmtjDRnIw5xIJK66fYCSJ0B8tp8McxpDacjDG7vD2+lwlO6GXfiPDgt/RBgZKdrNtKeUPmJkoZstMji0Ykh9VucD9OdZzQOt3iViZ/vdRfkZ/wCSFZhBOgdbvEqXsGWcXc/WeorsUv52d/8AYoGgdbvEpoHW7xKpEE6B1u8SmgdbvEqkQToHW7xKaB1u8SqRBOgdbvEpoHW7xKpEE6B1u8SmgdbvEqkQdcbBoHF3T0lVoHW7xKReoO8/uqQToHW7xKaB1u8SqRBOgdbvEpoHW7xKpEE6B1u8SmgdbvEqkQToHW7xKaB1u8SqRB16BvBxdzdZVaB1u8Sn9UdypBOgdbvEpoHW7xKpEE6B1u8SmgdbvEqkQToHW7xKaB1u8SqRBOgdbvEpoHW7xKpEHXIwaHcXcx6SqDBgcXeJXMn2bu4rkcwQToHW7xKaB1u8SqRBOgdbvEpoHW7xKpEE6B1u8SmgdbvEqkQToHW7xKaB1u8SqRBOgdbvEqQwbx3F3MOkrsUj7R3cEDQOt3iU0Drd4lUiCdA63eJTQOt3iVSIJ0Drd4lNA63eJVIgnQOt3iU0Drd4lUiCdA63eJUyMGjndzjpPWuxTJ6n6j90DQOt3iU0Drd4lUiCdA63eJTQOt3iVSIJ0Drd4lNA63eJVIgnQOt3iV57Jeae7ctdPZIYpxPZLbNUzSOI0O35iawN45yAHZyvQZpY4Yy+V7WMGBqccDicD5rUtlI6cbTbbXJ7ImyeXxwOmLRqEcdLAdOefAJcce8oMntO5tssVynoY2x1tRhjHMGC+Z+I2E9ZyW8eoe5aFygWOKl2y5LmwAthpax1LqzzhsYc0H/tkrbrVT3LaD/Drnc5qdlu3nlsFIyEiQcDug9+rBwCH8w9L3BZTaugmrrQfI4mS1tNLHVU7XEDL43hwAJ5sgFufxLG7yly19Pu893nLnr6fd8+2dqorzspdrXcqw0VJWxGnfOXgaNQAGNXDOcc6zMFLDTh4gjbGHuL3aBp1OPO445yekrXf8Lrr9VwybQU1JDb4S54omvMznvcwty92A3gHO4AHiQc8FltnKasorY2jr3tldTuMUU2rJliHqOd1OxwPWRnpVzK29uGmOdt7cMjoHW7xKaB1u8SqRW0YR4xthBxP/oJOc/+4xFzJ98YPyEn8jEQZpERAREQYef73UX5Gf8AkhWYWHn+91F+Rn/khWYQFL+dnf8A2KpS/nZ3/wBigpERAREQEREBERAREQTF6g7z+6pTF6g7z+6pAREQEREBERAREQT/AFR3KlP9UdypAREQEREBERAREQcSfZu7iuRzBcSfZu7iuRzBAREQEREBERAREQFI+0d3BUpH2ju4IKREQEREBERAREQFMnqfqP3VKZPU/UfugpERAREQERa1sLtVFtXQ3KeOEwvoblU26RucgmKQgOB97S0+7OOhB45y+3Lai+7Wt2b2eObbb6dtznpmty+rlhIl3YwMn0XMw3pcB7lumy1Je6bkomk2kD4to7/Pqq43MDNEk72xBoaObEYbw6wVxyOV52pvu2l+raSnbPT3ua300jG8WxRRsZznpIDSVut6xW7SWWgGC2Bz6+YdQYNDB+r35/6Co9T/AB182fq/42fPj/rPRMbHG1kbQ1jQGtA5gBzKkRW0Sznf3/2VKWc7+/8AsqQEREGFk++MH5CT+RiJJ98YPyEn8jEQZpERBi2bQWt0bX+WRtDqhtIA8Fp3rsaW4Izk5BHu48y6otqLNKYt3cIXb2Xcsxni7h7uY6m4PMdTcHiF8PmbRzRx+XVVbVVEdT5UKgybuQu1McQ7QAHD/LaOI4NGBhdcOw9BE6I+V1jizQw5cz04maNER9H1RumcRhx45PFBk5/vdRfkZ/5IVmFgZKWBm2lPMyCJs0tDNvHhoDn4khxk9OFnN2zst8EFKX87O/8AsU3bOy3wUvYzLPRbz9XuKDsRTu2dlvgm7Z2W+CCkU7tnZb4Ju2dlvggpFO7Z2W+CbtnZb4IKRTu2dlvgm7Z2W+CCkU7tnZb4Ju2dlvggReoO8/uqXXExmgei3p6Peq3bOy3wQUinds7LfBN2zst8EFIp3bOy3wTds7LfBBSKd2zst8E3bOy3wQUinds7LfBN2zst8ED+qO5UuvQzeD0W83Uq3bOy3wQUinds7LfBN2zst8EFIp3bOy3wTds7LfBBSKd2zst8E3bOy3wQUinds7LfBN2zst8EHMn2bu4rkcwXXIxm7d6LeY9CoRswPRb4IKRTu2dlvgm7Z2W+CCkU7tnZb4Ju2dlvggpFO7Z2W+CbtnZb4IKRTu2dlvgm7Z2W+CClI+0d3BN2zst8FIYzeO9FvMOhB2Ip3bOy3wTds7LfBBSKd2zst8E3bOy3wQUinds7LfBN2zst8EFIp3bOy3wTds7LfBBSmT1P1H7pu2dlvgpkYzR6recdHvQdiKd2zst8FrnKPWT2vYO/VducY6+Ojk8mczGoTFuGYzwzqIwg2VaJyQX2rv8AZb1UVsz5jDe66njc45IibMSxvcGkAe4BYzk8ucOzPIXbrhen7k26gf5Q9+XlsjHOa7mzk6gsZyP1EGymyFe28y63CtohJIGZL5qmnpej3yS8f1KD1uuqGUdHPUy53cLHSOxz4aMn9l+X6PbKo2Z2auVvo3z013fcqO/1AafRbTSsZO9hcDxOljgRzEZXr3/iCvdVs5yWXWutr2xVBfDBnQHEskkax4APW0uC1S7bBW+r5T9mqKSmayOt2eqGXMB5DpGxxMp2Y6A4CcjPu9yDc9kHCw8mdlfboIBcbm2KRoLMCSon9IvfjicAlx6cNW12W0voZ6irq6yStrqhrGPmexrAGNzpa1o5hlzj0nJ51iaO308e0dtttKz/AGKyUA0gnOHvG7jz1kMY/wCJbTu2dlvgs5OrLd8MsZ1ZXK+OykU7tnZb4Ju2dlvgtGoznf3/ANlS62MZl/ot5+r3Kt2zst8EFIp3bOy3wTds7LfBBh5PvjB+Qk/kYi4e0DbCDAA/2CTm/wDkYiDNotR2+hNc+226GkbWVVS6TRFPVyQU4a1oLnyBnF+OADcc7s8MLt2BpmUtLXQGkNFUU0/k89PHVPngDg1rw6PXxaHNe04wOPDoyQ2lERBh5/vdRfkZ/wCSFZhYef73UX5Gf+SFZhAUv52d/wDYqlL+dnf/AGKCkREBERAREQEREBERBMXqDvP7qlMXqDvP7qkBERAREQEREBERBP8AVHcqU/1R3KkBERAREQEREBERBxJ9m7uK5HMFxJ9m7uK5HMEBERAREQEREBERAUj7R3cFSkfaO7ggpERAREQEREBERAUyep+o/dUpk9T9R+6ClovKQ6srbxsjZKGESsqrkysrM4wKamLXk8f/AHDD1relp80ktTyt0sIh/wAihsksjpdQ9aedga3HdTuOUHkV2rbpUbIbZbD3CMW+V8tPb7Y2qGjymWprJtT2Hne0t0kY6GO96w/LVZ9p9lNsIrrQtMuzVVLb31McLC7Aow06nnGIxkDj08OrC9Litk20vKjZNoLq2kZa/J3yW+Exl7pZInyCNxJOGuDZXPGB+xX2X/Zvzusd9rAJZvLJpacwxylvlFIzDDG08QCXMc9px6x6iVl+LLN48sfxpZLjy8z2I5QLfyl3WS2SU1XM+s2khuBoqhhmZDSsp251Hi0NEkfuBLh1leyTUNddtrqq7Wyopaea2g2yN00O8DmPDJJTwIOQ7d4449Ag8/DD8nOxFg2QorffrXVx+R09l8kkl3AjMrd5vXSvwfW5wQeb9MLc9jaeWKwwy1TN3U1b31crSMFrpHF+k9wIH6LuXxWSX83cvjskvHd9FitZtsVQ6eoNVWVMpmnnLA3W7AAAHHADQABno96yaIrkkmo0xxmM1BERddSznf3/ANlSlnO/v/sqQEREGFk++MH5CT+RiJJ98YPyEn8jEQYTlLidJT0Z834b00CYMjkpPKNMxj/ys9hpdwc7mA5yOdfbyfWuWzW6uoJoKaMQ1ZDZYKNtK2oBjYS/Q3hzlzcjnDAurlANA6Khhr7baLi973GOK41bacDA4lpLXZPEcE5O2wU9DXU0MtvZioMooqGpNRHRsc0AM1YHOWudjAALjgY4oNtRa6NpwCd5b6lumsFHJhzHaXHTgjDvS9biBkjS7PMvjg26o5XRDyKsbr0POdHoQv0aJD6XMd6zgOI48OCDLT/e6i/Iz/yQrMLAyVUL9tYIWuO8ioZtY0nhmSHHHGD+izm8b1/JBSl/Ozv/ALFN43r+Sl8jcs49PV7ig7EU7xvX8k3jev5IKRTvG9fyTeN6/kgpFO8b1/JN43r+SCkU7xvX8k3jev5IKRTvG9fyTeN6/kgReoO8/uqXVHI3QOPX0e9XvG9fyQUineN6/km8b1/JBSKd43r+SbxvX8kFIp3jev5JvG9fyQUineN6/km8b1/JA/qjuVLr3jd4OPR1Kt43r+SCkU7xvX8k3jev5IKRTvG9fyTeN6/kgpFO8b1/JN43r+SCkU7xvX8k3jev5IOZPs3dxXI5guuSRuh3HoPQuRI3A4/JBaKd43r+SbxvX8kFIp3jev5JvG9fyQUineN6/km8b1/JBSKd43r+SbxvX8kFKR9o7uCbxvX8lIkbvHcegdCDsRTvG9fyTeN6/kgpFO8b1/JN43r+SCkU7xvX8k3jev5IKRTvG9fyTeN6/kgpTJ6n6j903jev5KZJG6OfpHR70HYvP7jXGm2k24rWZ3lLaaSGM/jPlDgPF7fFb9vG9fyXmri2qvO0bR6QrNoKOjP/ACRQQyOHyd4qM7rG6R6l1hdNyfs/TT2GhtszpWeRsjEUsMhjkjcxunU1w5jjI7iVlKKlgoaOGlpI2xU8LBHGxvM1oGAF2CRvX8k3jev5Lsxk5jswxnMjCVGydonqXzGnkZvJN7LHHM9kcrs59NgOl3EZPDiefnKzqneN6/km8b1/JdmMnaGOGOPaKRTvG9fyTeN6/kuqUineN6/km8b1/JAZzv7/AOypdbJG5fx6er3Kt43r+SCkU7xvX8k3jev5IMPJ98YPyEn8jEXDnA7YQY9gk/kYiDnbCtpKCxTTV9E2uiLmRtp3BhEj3ODWg6/RAyRxPMo2PuNBcLa//C6RtJBC5jTExrWtBdEyXgG8OaQA+8FdO3tVHBYZWyOoHtLmOlpqySNjZ4RI0SM/zPR4g4yeGSOIzldPJ3LBNZqh1DBQ0lvFS4UtLSPheIIw1vouMRLNRdqdgE4DhxQZCn2Ys9P5LuKJjPJZHSw4c7/Lc71iOPDOOPXx6yqi2as0Ri3dupm7qXfMw31X8OP/ANW8OYaR1BZdEGIn+9tF+Rn/AJIVl1h5/vdRfkZ/5IVmEBS/nZ3/ANiqUv52d/8AYoKREQEREBERAREQEREExep+p/dUpi9Qd5/dUgIiICIiAiIgIiIJ/qjuVKf6o7lSAiIgIiICIiAiIg4k+zd3FcjmC4k+zd3FcjmCAiIgIiICIiAiIgKR9o7uCpSPtHdwQUiIgIiICIiAiIgKZPU/UfuqUyep+o/dB5hytbX3nZranZVtogqam3f5893ip4DM5tONDGvIaC7g5+RjpHHgvk5J6e6S2vZWa/mU3isNVea1sse7c15aImZb0HS8eBW3W58c3KTtBUPIa2it1JT6icAanTSOOe4s8F9mzpddbpVX0xuZSyxMp6LWMOfECXGTHQHkjHuaD0qM+dYs/U51j74bEiIraCIiAiIgIiIJZzv7/wCypSznf3/2VICIiDCyffGD8hJ/IxEk++MH5CT+RiIMJypXV1vtEMdM2byx79+18bGPEccJEkhc172BwwMac5OVsWzrJ2W4GpqqOqc92pslLT7hmkgYGnW7j78/osVt3Pa4KSldednX3uIyhkbW00M27e4hrRiRw4uLscPfnC+jYya3SUFVFarM6ysp6l0UtI6njhIk0tdq0sJHFrmnPSMINgREQYef73UX5Gf+SFZhYef73UX5Gf8AkhWYQFL+dnf/AGKpS/nZ3/2KCkREBERARFrVZtDLDyh2vZ9jYjDU26prJHEHWHRyRNaAc4x6b88OgINlREQEREExeoO8/uqUxeoO8/uqQEREBERAREQEREE/1R3KlP8AVHcqQEREBERARY2gvNLXXe522ESeUW4xtm1Nw3/MZrbg9PBZJAREQcSfZu7iuRzBcSfZu7iuRzBAREQEREBERAREQFI+0d3BY2/Xumsot5qmyO8trIqKPQBwfISATk83BYS77bUNp5RbPsxXOZE+60kksEhJy6VrgBHgDAyNZyT/AKcdKDb0REBERAREQF8xr6Y0ElZFKyanja9xfE4OB051AEdIII7wuLtWx2211ldMCYqaF87gOprS4/svE9k9pd1yDtomvEe0dbPVW5lDC4PmjqZ55CG46NLZA4noaMoPZdnbxS7QWG33e3l5pK6BlRFrGHBrgCAR0HjxX3yep+o/deRcnm0VPs1tAzYCK3yU0cVwrY6cyyEaYABLEWA8XNOtzc9bTjKzexPKFBfL/tZaLjNTwVdsrZTTxhpbro2aWb0uPA+mJOkdHDpQdNZ/nXbbKnaSDX3OituR2DTwl/8A9HvXpLGhrQ1oAaBgADGAvKNgbrDtRdYbtQslNuuN0qbnA6WMsc+OKmipw7B4j03HwXrCjHnK3375Z485ZX/X7/uIiK2giIgIiICIiCWc7+/+ypSznf3/ANlSAiIgwsn3xg/ISfyMRJPvjB+Qk/kYiDHco8cj7FjeQupnvbE+lfReUuqHve0RtaDIwNOrpzw58jGVxybRtp7JU03k4pp4Kp7JoTTCBzHlrXeliSQOJDmu1azkEdS45Qa2OGmpqKuFvZb60SxyS3Af5IlEZdE1xyA3LxnP4cDiQp5MREyx1UNK+jnpYat7Iqqkh3cdT6LS544nV6Ze3Vk50oPjdtvOzdlsNFUROqHxtlhnJbO1ro2lsYxxfqkIAPA6CRwOR0023s8r6dppKU7yRmSycnLXGL/Lbw4yt3vFv4T18N7ZSwRgBkMTQHaxhgHpYxnvVCCIYxGwYcXj0Rwcec9/E8UGFklldtpAx1O9rGUM2mQubh+ZIc4GcjHvws5qd2D4hYmf73UX5Gf+SFZhBOp3YPiFL3Oyz0Dz9Y6iuxS/nZ3/ANigandg+ITU7sHxCpEE6ndg+ITU7sHxCpEE6ndg+IXjHKJWQ2nlns20VY6UUlmtczpo2AEua+GqeccefEHAdK9pX5u5arlFc6La64UR3scNdHs/kcMSijqQ7OegPqg39Olctk5rlsk3X6IoattbRU9VEx4jnjbK0OwDhwBGfFd+p3YPiF4tZuVqls0O6uIjdZ7fs/Q1Ikp2mSWWokIjMYwcc5aMY4HJJwvVtlb5S7S7OW6828u8mrYGzMDhxbkcWn3g5H6Lsu+YS75jJ6ndg+ITU7sHxC6LlXUtst9TXXCeOnpKeN0ssshw1jQMklfQxwewOactIyCOlHURudoHoHp6Qq1O7B8Qvmrq6mtlrqq+ulENJSxPnmkIJDGNBLjw6gCu6lqIqqmiqIHa4ZWCRjsYy0jIPgUF6ndg+ITU7sHxCpEE6ndg+ITU7sHxCpEE6ndg+ITU7sHxCpEE6ndg+ITU7sHxCpEHXqdvB6B5usKtTuwfEJ/VHcqQTqd2D4hNTuwfEKkQTqd2D4hNTuwfEKkPMUHmWxN2ik5Z+Ue2+kZ2CgmA4Y0+TgH5keK9L1O7B8QvG7fcobNt1e77JGH5beC/SQDI2nFIQM/9Dx7sldPKTtRBtVsrstcbDXPEDKkXaeOCQOcBTxCZ0T8dWoZHuCD2rU7sHxCandg+ISJ7ZI2vjcHMcNTXA5BB5iqQdcjnaHegeY9IVBzsD0D4hcyfZu7iuRzBBOp3YPiE1O7B8QqRBOp3YPiE1O7B8QqRBOp3YPiE1O7B8QqRBOp3YPiFE84ghkllBbGxpc49QAyV2rzX/wARt0qrRyN7RVVBPJT1OiKJskbi1zdczGnBHuJCDzPlbuu0N25R7RcdjI5bpQwUFHdIqUaiycxvfK0gDmLmyd+BhfVca+z8o1DedtaWp3dzsdlpJKSoppSzySrBllkjGocSXNYziMkHhzrL8i2zl4s+x9ut9wrKtt4vbWTVWpuh9FRwNEbY29RI0gHhjWSOIyt+peT+goo3UlK8f4XFERBRGFuGu0FrdT+d4aCdIdkjOcnAxFyu9Yxnc7uzGNwpahtTTRTwYfFKwPY5rgQQRkEFdup3YPiF+TrHyibT8ml6tdiu9FUXGhs1M2groWTcY94I5g/AyHOY3W1vWARkL9HUe2NDVbA+djIallD5I6sMT2gSgNBJaRnGrgRz867jdxWGXVNtj1O7B8Qmp3YPiF4hsFtVtpRbfbP7ObUCIUl2pKq5M3wcaqMlxeIXknA0eqMc4A5uYe3vkZHjW5rdRDRk4yT0KlGp3YPiF8F/vNJYLLW3a6v3NDRxOmmeeOGgdA6SeYDpPBfbv4vKNxvWb7Tr3eoatOcZxz4z0rSdrbZS7QcoGzdvrg6SmoqeouZi1Ya+Rr4o49Q6QNbzg9OEHXt7tNR1/JnWVNlf5fHd2/4bSPpyHB0szjCPhJJP/KVpEFLYrDy41TGiCKlpIH3aUl+d3OYRG52M+sWnmHWcL4dlRaqXb+a0eTQwbN7KS1V1oniUtad4GNYGM53aX78A8QcjpXqmzeyFt10l9utsgftA+JxkmkbqdHrkMpaAeALXHGcZ4c6zufVdYVjc7ldenWh7c8l3nm2zbQ3KmqpbuyYy1MDKndPFO7U5sUZ5g9h0EDgC7USeK+Db+20rdnbBQ2m03GC2smba62vq4nNkdBK0iUP4a3dJLyA3VzHq96Uyer+oSYWdq7PTuM1jffvu1TZaOlnuz6m0RYs9DRx26jcz1HAEl+gnnaAI256SD1La9TuwfEKgABgcyKscdReGPTOU6ndg+ITU7sHxCpFSk6ndg+ITU7sHxCpEE6ndg+ITU7sHxCpEE6ndg+ITU7sHxCpEHWxzsv8AQPP1jqVandg+IRnO/v8A7KkE6ndg+ITU7sHxCpEGEeSdsIMjH+wSfyMRcyffGD8hJ/IxEGXmijmjdHMxskbhgtcMg94VMa1jGsY0Na0YAAwAFyiAiIgw8/3uovyM/wDJCswsPP8Ae6i/Iz/yQrMICl/Ozv8A7FUpfzs7/wCxQUiIgIiIBXj1gsFu2lsGy9DcaZstNVVdXfKlrDo30jZSWOeRxPGRvwgcy9TvtX/h9kuFYDg09PJNnq0tJ/stO5NqURf4ZE3h5BYqOAj/ANyQF7//AODT+qjPxPz/ALZ+p4n5z+f2ebbOckVyivVVW11LHV2yju826oKh2iSspm4EBc/1SGlrXDhx08edZuycpFo2E5NJYq+NkFwopq2CloNeN+6N8jwGuA4N/wBOcdHvAXtp5ivzLetio9uNs9rLWaOWeG21ZErqYsEsZmnE+WB5DeLGubnORr5jxC5ZceZ2csuHM7fL3y2LlN5SbVe+TvlGtzaujbJRwNhpxHLqdMyRkWXdXCSRzOHZ717fbHa7dSu64mH/AOoX575TNi5GUmzttds/DFaG0FRTyxUZBk3cMQlYZpAGNJ1sDsDpDhk6luvItyhVG0NprGXyHyU09NHXUzhEWtNEW4aScnLg5j8nhkEYXZnLdKnqS3TY+WFxbyS7W6QS51sqGADnJcwgD5rLcn9ZHcNh7BVQkuZLQQOBIIP2YzwPvXnV12nuW2G1Eez9ppGT7KV1HRXCS4u1RbmHUJpAeByXxmMNbwIy49C2Hkf2jttVspbbaaqOOvgpnS7l7gHPhDuEzR2DqHHoPAqrlJdO3KSyPQ0RF1QiLWOUa71lp2akFoiZNd62VlDQxyOLWulkOMkgHAa3U8+5qDO0Vwo659S2iqoah1NKYJhE8O3cgAcWOxzHDmnHvX1L8+bK26Lk35SJKeKorqSxmppaF0bXONI9z6PJkcMkbwzNBJPHBJPDC/Qa5MpeImZS3UoiIuqT/VHcqU/1R3KkBFh7btPZrlfrlZaCvinuduDTVQMzmLVzZOMZ9wPDpWYQFgNv7/5rbF3q9hsb30NK+aNkjsNe8D0Wkjrdgfqs+tB5VKeivNXsvs5VyNEtyrpHNj05OiOmlLngHh6LnRnj0kIPEINkr5d9keTex22VkcszZq+qnDXuY0VYmla17gMtGhmknrIWb5Mdkdpdm33e33S3Dd1MdRBaI3Qu0RieXE75CMhoDYmHBIJGAOdexcmltiobQ91O5z6cbukpnu53QU7BCx3/AFFj3f8AUtwwscceqdUutsMcLlOqXW/t4/RpHI7ezedhLcJnRmqpIYoJdBz/AE2OYe8sc3Pvyt3XhHJVFbuT/lY2g2Lo5al1LWSGphMrTpY4sZIyMO6SGukHWQ1p6V61WbW2OlkZG+5U75XyMjEcTtbsvnFOOA6N76JPQQc8yvC8avhp6d41fDOSfZu7iuRzBTJ9m7uKocwVrEREBERAXnfKvdn1NXZdh6V89PU7Ub6B1ZFjNPBG0OlI/EWnSDzAnPuXoi88u9yezbW+XKmhfILPbG0LHOb6Lqud7XtjHXw3Of8AmC5bqbrmVmM3WY5N666VNkqaS/zw1Nzt1ZLRTVEMe7bLpwWuDcnGWubn35WJ5WoorxJsvsvLDDUx3e6MNRBMDpfTQNM0nEf8rBg8+patye3WLZ/lY2g2Zf5W4zzB8lTMcsmmMUTgWk/6uL9WO2xbntlWeQ7YWmr5/I7RcqnH/L5OB+6nHPi28aRjnuW5caZXZZgrKq43cgYmlNLTY5mwREtGO9+t36jqWwD7R3cFj9mqI27Z+3Ubhh8NOxj/AHu0jUfHKyA+0d3BMJrGbd9Oaxm+7GXfZ+2XVuaqkj3wkEzZoxolbIBpDg8cc44d3DmXjFbVbQ0Ev/l3LZaltqud1kp6e6yu1f7G5+9ecAcXfaDJxjIOCF74vluduo7pSmmuNNFUwEh2iRuoZHSmWPmdzLHnqx7tD2gstRtpaau70007Z6V7prEyKTdjXHnTI49IkcCOPDQR1la5tbdajlIp7FZbTQ1EVY1kl0qHl+ltHUQiRjInkcQ7fgfo0nivZ442Rxtjja1jGgNa1owABzABaBRcnb6HaDaGtpLmI6S+ztkqohBpkjYOLmRyB3DU4vJOP9XDBGVOrjzOUdOWHM5vn374+jV9kLnf6/lSpr/e7Y23R1zJtnzTPdkxPgG/D2OwN4xzhMNXNwGFnLpWV3nntdcGOiay3W2C3UbWA6zNOdeSeb1jHhTyobO0NBQWerslDT0VZFc6fRLBGGEHDw0cOguLAevhlfPY62K/7S11RS6xTVt6p3AkYD209Gx7sdYEmluesFMsrqy93M88tXG8X+eG627Y2y0Vwjr/ACOOarjpqelY+Vodu2w69BbkeifTOSPd1LYkRaSSdm0knYUyep+o/dUpk9T9R+666pERAREQEREBERAREQSznf3/ANlSlnO/v/sqQEREGFk++MH5CT+RiJJ98YPyEn8jEQZpEQ8yAi89muO1BrIGUTK6SNlbOxxnpWsEjN4zQCdI9HQX8eHAc5dgHm3Vu1T6ihEza0wulYMyUzGl/GPeiTA9FrQZtBGM4HE8MhtM/wB7qL8jP/JCswsDJ5T56QaxDufIZt3gnV68OdXR3YWc9P8ACgpS/nZ3/wBinp/hUv15Z6vP/YoOxFPp/hT0/wAKCkU+n+FPT/Cg1rlOmMHJ3tI5vrG3zMb3uYWj5ldmx0LBJeZmNwx1aYGH8MLGRfuxy8ivwrdutsrre6e81dBs1ZKuK01FuAcRc5oZ9T42tB9IO1aR05IzzL2nZiiqaCxUsNVp8qIMs/HP+a9xe/8A+ziovOUnyZ3nOT5c+/1ZdfPT0FJT1VTU09LBFUVJaZ5WRhrpS0YBcRxOBwGV3en+FPT/AAq2jrraaGto56WpZvIJ43RSMyRqa4YI4e4rxjlQtrrLeqOPZ6ka3/8AAS2uCnjOkFj5I4GDPU100bv0K9r9P8K8r5Zra+s2i2D1PIgqboKCoY0kao3ATesOIIdTtPBTlNzUTnOrHUYrkos15pbPJszeac0laJWxVsjX6iaKCKOCINPQJdDsc3o6+nBWjVXJLtq+m2mc64bmSnpSy3sxlnk8j5jJSscDzaQzgRjLugjK/SNktdNaqQx0ULWl51SSOcXSSu7T3Hi53vK+6Vj5I3sIbhwIUzDfN7onp75y7/Zp/Jdt1Bt1b7jVU8BgipqkRRanAuliMbHNlI6NRLxj8K3VfmrZqet5MNpdi7XK9lBHV2ykZdKdzW6XHeTMc9xHM5rnxDI7uZfpP0/wqsb4vdWOVvF7xS8x2y2rhdynWHZ91JPuLc195qa0cY2BsE7d2eo+k136rcdq9p6DZajpaq7zRxQ1FVDSMJcBh0jw0E5I9EZyT0AErQLRcodpr5tXT0Idu66+NtshdwzFSwx79wxn0SfRB/GEzupt3PLpxtjv27snlvJHKK+IeX1lZTVrz0xzSVMePha4N7gt1j2loaHY+kvd4qW09M6OESyOBOmR5azGB+M4WO5WJfJ9grjPK5jI4HwTOeTgNDZ43Ek9QwtCqzb9sZ6mx1FxifsdbN9dKuaklyypbI8vp2Nkbng0l7sDjqYwKNTCz378s5J6dny17/d63RXujrb5c7TA55rLc2F84LcACUOLcHp4NKXu90Vldbm1z3tNfVsooNLC7MrwSAccw9E8V4tbG3LYvay3bSbVSVmqueaCevlDWb2lZT5jMsYe7EgdGXucMYy4dOFirnVXPbDaG4ba0NO64QWy4UcWy8LJHQMrtL3GYFuMlwGri4DTg9RVzPG8rnqY2bfo/nkH/KqJwMnmWrcnN+n2i2PtNxqzB5e+AMq2x8Aydp0yNx0YcDwXk+2vLLcxRz11itjKi00MdVDd4g7VLCDO+CGRpxwyY3uI5gDx6Cuy75ipZZuM5sRFbqHbKy7QbtsFXtPHcnPlcSDO01LJKYEdH+WTg4HPjnwvYKqoipaaWoqHhkMTC97j0NAyT4BeD3ZkVDHYLlW1LKeio6Y2WCseSIYZGU7HNkc7maPKGadRwPR5+K+u+7YScpN5odndm7qaWwGidUX6vo5NMlHlji2Mvd6ODgg8D3hRjnu8s8PUtt328e/fd9XKjynOmtVsg5P6+lrpqgNuFVLC/D4aGN2XyNzjnLCwjiecYys5tZL5ZtnV1lPEHzWK3uoqaQniKyscwNDR1tY1ufdIPevNdheTa82rYW/RR0UVTUOp6mGiuckZbJLSFmRHHESXAyOH+r1QcjJXpXJxszfG0FFWbRztkfUStu0zJHOdMZ3RMYyN+QMCJox05IB4YXMsrlNYxzLO5TWM7+Xodto47fbqajgGIqeJsTO5owP2X0qfT/Cnp/hWsmuGsmpqPL+XGiqYhszfLfMyCe2XMSnVwEmY3Ya49RcxgPuXkN+2YktFri2pptsJK6SKljuclujh1xwyGobUgF7chsW9c52HEEkDiV+ltrNnKHauyvtV6hE1DJJFK+MOxq0Pa8A8OYluCOkEhVdNnbbcrBW2Woo4G22sjdHNDCN2HB3P6vMfeouN3uIuOXVvGsXycbUt2t2SirZNLLhDmnrom80c7QNQH4TkOHucFtg5gvN7y+Ww8rFnfSlkVDdqF9PVRNGGl7HtbFIfxf5obnqwFsm3G1DNk7IytkpZKypnmjpKSlh4OqKiQ4jj1Hg3J6TwC7jbeK7jlbuXvGyIsNsjeJL/ALL2q6uhZBJWUzJnwh2rdvI9JmenByP0WX9P8KpakU+n+FRK90cb3nThrSelB2leQ8nbay5vEtdIJm3a+1l7a4Sav9mjLY4AeoZEeB1NXiG2vKFf+Uy50FNZG1lJFLbqd9T5NM5kUT2Sl00oJIwGatJPFfp/YS2MpoHVVNCYaJsMVDb45AQ5tLEMNceAILyXO7tOVGfOsWfqc6w+f298MJy3Wu4Pstvv1jgbLcLHO6rdmXR/kBhMhA/1EFjHAHnLVoNh2qum2+3twZcINxRz08UVuiBa4immniLiS3nJFNM7B4gHC9/rKZtZST01Qxr4ZmOje3J4tIwR4Fa/s5sLs/s7NSz2i108FRTUzKVkwJLtDW6RnoLsc7sZOT1rmeFvby56mFy7eeK2hSPtHdwT0/wqRr3jvV5gtGrsRT6f4U9P8KCkU+n+FPT/AAoNY5To3u2JuM0QJkpN3WtwMkbmRsvD4Ctc5IKGSe30lxbSMp7W1tVJQuDw7ftqKh0m86wNAYBnrK9Ie0vY5r2sc1wwQeIIXXSU0dHSw01JDDBTwsEccUbdLWNAwAAOAAHQpyxmVlvhGWEyst8PoRT6f4U9P8KpalMnqfqP3T0/wqZNej/Tzj90HYin0/wp6f4UFIp9P8Ken+FBSKfT/Cnp/hQUin0/wp6f4UFIp9P8Ken+FAZzv7/7Kl1s15f6vP8A2Ven+FBSKfT/AAp6f4UGHk++MH5CT+RiLh2fPCDVj/0EnN/8jEQZtERAwiIgw8/3uovyM/8AJCswsPP97qL8jP8AyQrMICl/Ozv/ALFUpfzs7/7FBS12x7TMuu1+0ljZC1ps3kwdIH51ulYX4IxwwAPFbEeYr8w7Z3CotHKLV1lHUGEz3h1dK0yaBO2gaHOjzzcWSkYPOdKdi3XNe5bU7c0Gzm1mzNhrIJ3z36SSKCSPTpjczT6wJzg6ucdScotdIeT+5SWmqLZquJtLTVNO/i18z2xNe1w6QXg5HUvA7/e//NW47QVNBQzVNXanxMsGiENmed4yUuaCeAxE4OdkcHNHOcLv5PLbc7hcYrNM64yeZdQ6hp6WkL2wVc7ZjIw1DvU3bC1h6yOYZ54vqYs76uL2PYjZuittbHRUAMlDZRodM71qque0b2d56X6cAnre7qW/L4LDbharVT0geZXsBdLKeeSRx1PefeXEn9V96YTU3e9d9PGybveiIitYuqemgqDEZ4Y5TE8SRl7Q7Q4AgOGeY4J4+8rtRBMXqD9f3VKYvUHef3VINA5W9nrXXWR9xqKSN1dvKSj8oI9JsLqyEuaOrrWwbOXmF1ptMNwqY47jOH0wje8B8ssORIGjpI0OPcudvLCzabY672aR8jBV07mNfGcOa7naR3OAXgDLHU7Y7HV+1k9PWyGBktRbpIa4wsoXwh29Og5Je97CTgcc4y1RlxZkzy+HKZNyvO1Nh2p5U6q23GibWRbJxVUm5I3jKiWRsETRpIwXapJo9Jzx4reOTnYqn2ToGNjZHE4RlkcEZLmwNc8vcNZ4vcXEZecZDWjAAWA5LtmTWW2zX65UsUU0lNHVOkOl89XLIXTbyRw5mh0ri1g5jgnmAHqS5Piu72cnx3qvbwx20VmotobHW2m6RGWhrIjDKwOLSWnqI4ha7YuTfZ+y3Kvq6KndGyrq21ZpYzu6dpa1oa0Rtw0gOaXjI9ZxK3NFdkvdpljMuLHl3/iEcY9lLYWQGeWav8jjjAB1PngmhYOPDGqRp/RblZLHUwVcdbd6qKqqoYtxTiKIxxws4aiGkn0nYGTnmAA6c/RtHs/RbQRUEdw3miirYa+MMdjMkTtTc+7POFl1y4y3dcuEt3X5otXnZye7Z1tnlq4KBl9rpaykqJ4d/AIYZHuLPQ9IambsOzjSJM5yMLbNh+TiOo2WulsbUVdLQXUvmr6uGQtdVVDm4O5Dmgtha4uI1DLz0aef1K52GmuG0llu8r5G1NrE+6DcYdvWhrs+AWZU3Df0RfT3db4+Xvwwd82ZoLrsdW7OGOOKhqKR1KA1gIjBbgODebIOD3hYG08mNitl1krKdr2xzU9PDUUsYDIZ3Q50veAOPOPRzjI4grekVXGXixdwxymrBERUoREQEREHnHKgG+cFiZrayaopK6CmJdguqAIZYmjrJdDzL4Nq5Y9oNsNn7lPVFtjsVA2/vpcZFRI/W2Hp9ZpblvvK2Tld2cj2m2Au1L5O6athhNVRmJoMgnj9NgYecEloacc4JHStE5LrVdrzXVNxraS40tnrahj4KevY1rqalp5JDHT8DnO9cXEEcGtHE5WWe8buefcY57xu554/j931cmu1k9n23rdhr3u45WufUQaWEMjdKRMImu6RiQ8/EFuOYjHsa8q5d4o7TabdtBQ27yi6QXBjWinYBLK+Rjo4/SxkkP3R7m4XbZtrLjTcjFfcHTir2ktNPNTVG/Gf9sjJbh3Xl2O9dx+G9Ndw+C9Nv0eoLwzlC2mm2V2yvO0UoraunbiwMpICXanPpmzsLWc2dRfxxnC9h2cujL3s/b7nGwxtq6dk27JyWFzQS0n3HI/RaDawbxd7pSTxFtNcb/UOkGQS+ClhjiIPUHSMAI7JI6VWV6ZteeXTNurkl2QoIdnrPGyjDbZbo9ULJTrM1W7DppTn/SHjS0c3ok9DSvVVEMUcETIoWNjjYA1rGDAaBzAAcwVpjjrv3cwx6e/cREVLFI+0d3BUpH2ju4IKREQEREBERAREQFMnqfqP3VKZPU/UfugpERAREQEREBERAREQSznf3/2VKWc7+/8AsqQEREGFk++MH5CT+RiJJ98YPyEn8jEQZpERAREQYef73UX5Gf8AkhWYWHn+91F+Rn/khWYQF8V6ro7Za6qvnBMVLE+d4HOQ1hcf2X2rzTl/uNXb9jKWOlq/JYa+4Q26rdpbxgm1MfxI9Hgc5HUg2LZDa+mvmzmztbXCOhrrywiOkLyTvWtc6RgOOOkMd4LzfYqxxbZ11BX3+jjZK+W6XANA/pTvEMek54ZDS7PPlo5lq14v8baGwVcEckVFYNqKuuIwQ/yMOke447nuGOoL1jkhpnR2uEyNGqnttDSE/i3W+d85h4LK5TOTXm+/sxuUzmOu1v2/8bFsdsfZtj7a2hsdKIom6sOd6T8E5xq58e5XYNnxaL1tFcBPvTd6tlUW6NO70wxxac54+pnPDnWdRattCIiAiIgIiIJi9Qd5/dUpi9Qd5/dUgLXrDstS2rZepsZkdNSzyVT3nGg6Z5XvLeHVvCM+7K2FEHzWyihtttpKGlDhT00TIYw45Ia1oaMnuC+lEQEREBERBP8AVHcqU/1R3KkBERAREQEREBERBxJ9m7uK5HMFxJ9m7uK5HMEHDgCOIBxxX53vtzqbTtdeNmay1VVMy51wlFU4t3VRG+tZIx7fe0OmDuoYyv0SvP8AbzZSW/8AKDsRWSUTKq1UJrPLRJpLAHxAR5aef0/cpym5wjPHc47te5M9vqS026HZ/aHTS1ENZHRUb2+lvhO4OgBaOLCWSM4ngeJ4YIGY5K3OrpxXOwBuZ6nSP9LqqrlkI7w2ONYravkjF85R7hfYap1JDWW5oEwfqdBXRujEMrGcB6LGHp5zwW58mGzk2zOx9BR1x1XExMdVO16xvA0DS09LRjA8ecqOnLiXlHTnuS8+/wCW1oiLVsIiICkfaO7gqUj7R3cEFIiICIiAiIgIiICmT1P1H7qlMnqfqP3QUiIgIiICIiAiIgIiIJZzv7/7KlLOd/f/AGVICIiDCyffGD8hJ/IxEk++MH5CT+RiIM0h5kRB587ZS9OroJYZ4KSGGrqJWMbM6RrRI9rg/SWcXAB7cZGC7IPQlu2Qu1PUUMj5qdrIZWO0MqJHbnSYy97Mj0jJoeCDjG8PE8c+gogwMkL27aU7zUSua+hmxGQ3SzEkPNwzx95Kzmk9t3yWJn+91F+Rn/khWYQTpPbd8l57y1UstVZtn4WOBa+/29kjXNDtTTMAR816IviulupLi2mbXQMmEFQyojDv9MjDqa4e8HiuWS8VyyWar867aWuarqtoooAXb2HaABvAZe0Nc35S4XuPJ7bKi3bKUTa4OjrZmiadnZcQMN/6Whrf0XnsdA+57fm3Ne1kJu1xknyM64gyjc5g/wCYuA7sr2hZ443qu+zLHG9dt7Tt/vunSe275JpPbd8lSLVsnSe275JpPbd8lSIJ0ntu+SaT23fJUiCdJ7bvkmk9t3yVIg64mnQPTd09XWq0ntu+SReoO8/uqQTpPbd8k0ntu+SpEE6T23fJNJ7bvkqRBOk9t3yTSe275KkQTpPbd8k0ntu+SpEHXpO8Hpu5vcq0ntu+Sf1R3KkE6T23fJNJ7bvkqRBOk9t3yTSe275KkQTpPbd8k0ntu+SpEE6T23fJNJ7bvkqRB1yNO7d6buY9SoNOB6bvkuZPs3dxXI5ggnSe275JpPbd8lSIJ0ntu+SaT23fJUiCdJ7bvkmk9t3yVIgnSe275JpPbd8lSIJ0ntu+SkNO8d6buYdS7FI+0d3BA0ntu+SaT23fJUiCdJ7bvkmk9t3yVIgnSe275JpPbd8lSIJ0ntu+SaT23fJUiCdJ7bvkpkadHru5x1da7FMnqfqP3QNJ7bvkmk9t3yVIgnSe275JpPbd8lSIJ0ntu+SaT23fJUiCdJ7bvkmk9t3yVIgnSe275JpPbd8lSIOtjTl/pu5/d1KtJ7bvkjOd/f8A2VIJ0ntu+SaT23fJUiDCPGNsIOJP+wSc/wD8jEXMn3xg/ISfyMRBmkREBERBh5/vdRfkZ/5IVmFh5/vdRfkZ/wCSFZhAUv52d/8AYqlL+dnf/YoPDdki9n/il2vpHOcY20YqmNzwbripmkgdGdP7L3RYePZu1xbVzbSR0wbd5qRtE+YHGqMO1YI68448+AB0LMICIiAiIgIiICIiCYvUHef3VKYvUHef3VICIiAiIgIiICIiCf6o7lSn+qO5UgIiICIiAiIgIiIOJPs3dxXI5guJPs3dxXI5ggIiICIiAiIgIiICkfaO7gqUj7R3cEFIiICIiAiIgIiICmT1P1H7qlMnqfqP3QUiIgIiICIiAiIgIiIJZzv7/wCypSznf3/2VICIiDCyffGD8hJ/IxEk++MH5CT+RiIM0iIgIiINfu9bBb9pqGeseY4TRzsDy0katcRxwHPgFd3nRZ/bW/A76LNJhBhfOiz+2t+B30USbVWVrow6vjaXOw0FrhqODwHDn4HwWdwta2pvYtdztUJpY5jI/WHPkLXD02RYjGPSf/nE46getB9fnRZ/bW/A76J50Wf21vwO+izWEwgwvnRZ/bW/A76J50Wf21vwO+izWEwgwvnRZ/bW/A76J50Wf21vwO+izWEwgwvnRZ/bW/A76J50Wf21vwO+izWEwgwvnRZ/bW/A76J50Wf21vwO+izWFru0u0DrPW00TI4ajXFLK+BshE2hjSS5rcYIyAO9wAQdsG1VlfEHR18b2kn0mtcRz9yvzos/trfgd9Fr9o2tJq6WhZS0QYZhG8wVBc2QvcfSh4emGnJfzY4rekGF86LP7a34HfRPOiz+2t+B30WawmEGF86LP7a34HfRPOiz+2t+B30WawmEGF86LP7a34HfRPOiz+2t+B30WawmEGF86LP7a34HfRPOiz+2t+B30WawuiuqG0dHPUvZK9sTC8tiaXudgZwAOJPuQYk7VWXfhnl8estJ06XZxkccY5lfnRZ/bW/A76LUKPb01WirNvpWTYdT+lO4OY7VxcctB3IwAX45wt4sFwN0tMFW5jWOfqBDH6mktcW5aelpxkHqIQfN50Wf21vwO+iedFn9tb8Dvos1hMIML50Wf21vwO+iedFn9tb8Dvos1hMIML50Wf21vwO+iedFn9tb8Dvos1hMIML50Wf21vwO+iedFn9tb8Dvos1hMIMHNtTZWxPc+vja0NJLnNcABjnPBU3aizloIrWEY7DvosFfNrdzdrnaX0cRjjDIGunkwyRz91qc7HFsYEwySOJBAK79l9rnXm5xUvkjIY3wl4AlLntLWxuJIx6h3gDXdOPfwDLedFn9tb8DvonnRZ/bW/A76LNYTCDC+dFn9tb8DvonnRZ/bW/A76LNYTCDC+dFn9tb8DvonnRZ/bW/A76LNYTCDC+dFn9tb8DvonnRZ/bW/A76LNYTCDC+dFn9tb8DvoobtVZTM9or4y8AEtDXZGc4zw7/AAV7XXh9jtBqoYWzSmRkTWOfpBLjj/8A3MtXZtsXTulhpKGOSoDGCSWpIEYGDmY6fRadZ0Hp92UG0edFn9tb8DvonnRZ/bW/A76LIWuq8vtlJV7t0XlELJd248W6mg4PvGV9WEGF86LP7a34HfRPOiz+2t+B30WawmEGF86LP7a34HfRPOiz+2t+B30WawmEGF86LP7a34HfRPOiz+2t+B30WawmEGF86LP7a34HfRRPtVZWRl0lfGxuRxc1wHOMdCzcmQxxbjIHDJwP1Xnc+3e9ooHTUNJUMdAJXsjqS7/MG8cHN4cWNMPF3OMjhw4htnnRZ/bW/A76J50Wf21vwO+iw9m2wkr7zTUL6anAe90Lnxzlxc4b07xgx6UX+URq63AdHHcsIML50Wf21vwO+iedFn9tb8Dvos1hMIML50Wf21vwO+iedFn9tb8Dvos1hMIML50Wf21vwO+iedFn9tb8Dvos1hMIML50Wf21vwO+iedFn9tb8Dvos1ha7tBf/wDCbj5PJLQQxOopaoS1E5ZpMbmA5AHq4fzjjkYQdse1Vlc6QNr43FrsOAa46TgcDw5+I8VfnRZ/bW/A76LWm7YywS4NvpYJpxGZGvqCHMlcyP8AzH8OEQD2gu58tIwtvsFwN1s9LWujEZlbktDtQ5yMg9IOMg9RCD5fOiz+2t+B30Tzos/trfgd9FmsJhBrdFX01y2rZLRSGWOOie1zgxwAJkbgZI9x8EWyIgIiICIiAiIgKXxMkcxz2NcWHU0kZ0nmyOpUiAiIgIiICIiAiIgLqfTwyTMlfFG6VnqvLQS3uPQu1EHUymgj3eiGNu7zowwDTnnx1ZXaiICIiAiIgIiICIiDqNPC5znGKMuc0sJLRxaeJHd7l2Ma1jGtYA1rRgADAAXKICIiAuitllgpZJKendUStGWxNcGlx6sngP1XeiDTLdt5TzUba25Ub7ZQmKom3lRK1x0wO0yENZq4A+/qxnoyVPtnYJ53Qtr9D2bwP30MkQYWN1ua4uaA1wZ6WDx0+lzcV8k2w1BLbIaE1NWI4oaqEOBbkioeHuPNzgjh88rvuOxtuuPlTauSofFU1MtTLHqABMlMadzebONBJ689PQg++27RWu5UdTU0lTqiphmbXG+NzBp1AlrgDgt4g4wRzLX6rbt1LHbZamz1EdNXUxq2zuqIg2ONrA9xfkgjDXDoWVsOytHabXWUIcJo6puiRwp4YXObp04O7Y3JwTxPHivjqtiqW52S22+7zyTeSUclGXRYaJGuY1mog5wfRaerPWEH0t2m2fq5mRtkMtRUF0Bh8jkMuG6S4PZo1NaN4w5cAMOB6VNv2ptlRs9cb9FS1UcFEJmyh1MWyOELnAhuQNQ9E4wcceg5Xwv2Ao30NPTGrfEIp/KC+npKeF5d6OCHMjBYcMA1NwSDgnmxnbXZTbaCspKauqRHNNLNE4tZqpzI4vIb6OCA5xI1A9XFB8FLtlb/APCYq+4f7KyaQshbHI2qMuG6iW7kvyAAc9WOPBfZYtpKG91twpqHfO8jexplMTt1IHRskDmPxpIxIOnPTzYK1+Tk1tsrXyzVMslc+pNUZ308BbqMYjI3Wjd4LQOOnOQDlbDY7DHZ6qqfS1Evk9QIy6nLGNY17I2R6m6WjGWxtGnmGOACDF2fbaCu8ifU26to6evZI+kmfokbLoBc5uGEkO0tc4AjiAekYWQg2usc0TpG17WNYyZ7xJG+MsEQa6TUHAEEB7Tg8cHIyFh4eT6l/wAPjoau6XGppaeCaClYTHHuBI0tc8FrQS/S4tBdnAJ4cV8VTycwiipqCmm100lybX1cjw2Ihojax0TGRsDdL2t0uHDg5x4nCDP1W19ubQXKpohPVi3sMlQGQvaGtbgvAe5oaXNacluc8McFsTHB7Q5pBaRkEdIWo3TYtlXU3ipjrpI57lTvpHgRMawRvLQ4kNAL3BoIa55JGT1lbbGxscbWMADGgAAdACCkREETRRzRujmY2SN3O1wBB/QqX00D95rhjdvAA/LAdWObPXhdqICIiAiIgIiICIiAQCCCMg9BXRFR00QAip4WBoLRpYBgHnH6rvRB1x08MZYY4o2ljdDSGgaW9Q6hw5l2IiAiIgIiICIiAuiejpqh+uenhkeBpy9gccdXFd6IOkUlOG6RBEBo3WAwep2e73Lta0NaGtADQMADoXKICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiD//2Q==",
                     stat1Label: "Accuracy",
-                    stat1Value: "97.88%",
+                    stat1Value: "80+%",
                     stat2Label: "Error Rate",
                     stat2Value: "MAPE: 2.12%",
                     highlights: ["24-year historical data analysis", "Actionable trend insights & forecasts"],
@@ -1140,107 +1165,141 @@
 
                                     {/* Branches */}
                                     <div className="grid grid-cols-2 gap-8 relative z-10">
-                                        {/* Left Branch - TECH_STACK */}
+                                        {/* Left Branch - HARD_SKILLS */}
                                         <div className="space-y-8 relative">
-                                            {/* AUTOMATION_CORE */}
+                                            {/* DATA_ANALYSIS_VIZ */}
                                             <div className="relative pr-4 border-r-2 border-retro-dim/30 text-right">
                                                 <div className="absolute -right-[9px] top-0 w-4 h-4 rounded-full bg-retro-bg border-2 border-retro-green"></div>
-                                                <h4 className="font-pixel text-[10px] text-retro-green mb-4 pr-2">AUTOMATION_CORE</h4>
+                                                <h4 className="font-pixel text-[10px] text-retro-green mb-4 pr-2">DATA_ANALYSIS_VIZ</h4>
 
                                                 <div className="grid grid-cols-1 gap-3 justify-items-end">
                                                     <div className="flex items-center gap-2 group flex-row-reverse">
-                                                        <span className="material-symbols-outlined text-retro-green text-sm group-hover:animate-spin">settings_suggest</span>
-                                                        <span className="font-code text-[10px] text-slate-300">WORKFLOW_DESIGN (n8n)</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 group flex-row-reverse">
-                                                        <span className="material-symbols-outlined text-retro-green text-sm">api</span>
-                                                        <span className="font-code text-[10px] text-slate-300">API_INTEGRATION (REST/Webhooks)</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 group flex-row-reverse">
-                                                        <span className="material-symbols-outlined text-retro-green text-sm">psychology</span>
-                                                        <span className="font-code text-[10px] text-slate-300">LLM_ENGINEERING (Prompting)</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 group flex-row-reverse">
                                                         <span className="material-symbols-outlined text-retro-green text-sm">terminal</span>
-                                                        <span className="font-code text-[10px] text-slate-300">PYTHON_SCRIPTING (Data/Auto)</span>
+                                                        <span className="font-code text-[10px] text-slate-300">PYTHON (Pandas, NumPy)</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-green text-sm">database</span>
+                                                        <span className="font-code text-[10px] text-slate-300">SQL (Query, Reporting)</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-green text-sm">monitoring</span>
+                                                        <span className="font-code text-[10px] text-slate-300">POWER_BI (DAX, Power Query)</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-green text-sm">bar_chart</span>
+                                                        <span className="font-code text-[10px] text-slate-300">TABLEAU / EXCEL (VBA)</span>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* DATA_MASTERY */}
+                                            {/* QUANT_FINANCE */}
                                             <div className="relative pr-4 border-r-2 border-retro-dim/30 text-right">
                                                 <div className="absolute -right-[9px] top-0 w-4 h-4 rounded-full bg-retro-bg border-2 border-retro-cyan"></div>
-                                                <h4 className="font-pixel text-[10px] text-retro-cyan mb-4 pr-2">DATA_MASTERY</h4>
+                                                <h4 className="font-pixel text-[10px] text-retro-cyan mb-4 pr-2">QUANT_FINANCE</h4>
 
                                                 <div className="grid grid-cols-1 gap-3 justify-items-end">
                                                     <div className="flex items-center gap-2 group flex-row-reverse">
-                                                        <span className="material-symbols-outlined text-retro-cyan text-sm">monitoring</span>
-                                                        <span className="font-code text-[10px] text-slate-300">VISUAL_STORYTELLING (PBI)</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 group flex-row-reverse">
                                                         <span className="material-symbols-outlined text-retro-cyan text-sm">candlestick_chart</span>
-                                                        <span className="font-code text-[10px] text-slate-300">STATISTICAL_MODELING</span>
+                                                        <span className="font-code text-[10px] text-slate-300">FINANCIAL_MODELING</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group flex-row-reverse">
-                                                        <span className="material-symbols-outlined text-retro-cyan text-sm">schema</span>
-                                                        <span className="font-code text-[10px] text-slate-300">DATA_MODELING (Star Schema)</span>
+                                                        <span className="material-symbols-outlined text-retro-cyan text-sm">casino</span>
+                                                        <span className="font-code text-[10px] text-slate-300">MONTE_CARLO_SIM</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group flex-row-reverse">
-                                                        <span className="material-symbols-outlined text-retro-cyan text-sm">lightbulb</span>
-                                                        <span className="font-code text-[10px] text-slate-300">BUSINESS_INSIGHT_GEN</span>
+                                                        <span className="material-symbols-outlined text-retro-cyan text-sm">trending_up</span>
+                                                        <span className="font-code text-[10px] text-slate-300">TIME_SERIES (LSTM)</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-cyan text-sm">warning</span>
+                                                        <span className="font-code text-[10px] text-slate-300">RISK_ANALYSIS</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* DEV_TOOLS */}
+                                            <div className="relative pr-4 border-r-2 border-retro-dim/30 text-right">
+                                                <div className="absolute -right-[9px] top-0 w-4 h-4 rounded-full bg-retro-bg border-2 border-retro-amber"></div>
+                                                <h4 className="font-pixel text-[10px] text-retro-amber mb-4 pr-2">DEV_TOOLS</h4>
+
+                                                <div className="grid grid-cols-1 gap-3 justify-items-end">
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-amber text-sm">commit</span>
+                                                        <span className="font-code text-[10px] text-slate-300">GIT / GITHUB</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-amber text-sm">code</span>
+                                                        <span className="font-code text-[10px] text-slate-300">VS_CODE</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group flex-row-reverse">
+                                                        <span className="material-symbols-outlined text-retro-amber text-sm">api</span>
+                                                        <span className="font-code text-[10px] text-slate-300">POSTMAN</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        {/* Right Branch - HUMAN_OS */}
+                                        {/* Right Branch - SOFT_SKILLS */}
                                         <div className="space-y-8 relative">
-                                            {/* R&D_MINDSET */}
+                                            {/* STAKEHOLDER_MGMT */}
                                             <div className="relative pl-4 border-l-2 border-retro-dim/30">
                                                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-retro-bg border-2 border-purple-400"></div>
-                                                <h4 className="font-pixel text-[10px] text-purple-400 mb-4 pl-2">R&D_MINDSET</h4>
+                                                <h4 className="font-pixel text-[10px] text-purple-400 mb-4 pl-2">STAKEHOLDER_MGMT</h4>
 
                                                 <div className="grid grid-cols-1 gap-3">
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-purple-400 text-sm group-hover:animate-spin">extension</span>
-                                                        <span className="font-code text-[10px] text-slate-300">ALGORITHMIC_LOGIC</span>
+                                                        <span className="material-symbols-outlined text-purple-400 text-sm">handshake</span>
+                                                        <span className="font-code text-[10px] text-slate-300">EXPECTATION_MANAGEMENT</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-purple-400 text-sm">rocket_launch</span>
-                                                        <span className="font-code text-[10px] text-slate-300">FAST_ADAPTATION</span>
+                                                        <span className="material-symbols-outlined text-purple-400 text-sm">sync_alt</span>
+                                                        <span className="font-code text-[10px] text-slate-300">TECH_BUSINESS_BRIDGE</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-purple-400 text-sm">science</span>
-                                                        <span className="font-code text-[10px] text-slate-300">RESEARCH_METHODOLOGY</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-purple-400 text-sm">account_tree</span>
-                                                        <span className="font-code text-[10px] text-slate-300">PROBLEM_DECOMPOSITION</span>
+                                                        <span className="material-symbols-outlined text-purple-400 text-sm">checklist</span>
+                                                        <span className="font-code text-[10px] text-slate-300">REQUIREMENTS_ELICITATION</span>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* LEADERSHIP_PROTOCOL */}
+                                            {/* COMMUNICATION */}
                                             <div className="relative pl-4 border-l-2 border-retro-dim/30">
                                                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-retro-bg border-2 border-pink-400"></div>
-                                                <h4 className="font-pixel text-[10px] text-pink-400 mb-4 pl-2">LEADERSHIP_PROTOCOL</h4>
+                                                <h4 className="font-pixel text-[10px] text-pink-400 mb-4 pl-2">COMMUNICATION</h4>
 
                                                 <div className="grid grid-cols-1 gap-3">
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-pink-400 text-sm">manage_accounts</span>
-                                                        <span className="font-code text-[10px] text-slate-300">AGILE_HR_OPS</span>
+                                                        <span className="material-symbols-outlined text-pink-400 text-sm">record_voice_over</span>
+                                                        <span className="font-code text-[10px] text-slate-300">VERBAL_WRITTEN</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-pink-400 text-sm">translate</span>
-                                                        <span className="font-code text-[10px] text-slate-300">TECH_COMMUNICATION</span>
+                                                        <span className="material-symbols-outlined text-pink-400 text-sm">hearing</span>
+                                                        <span className="font-code text-[10px] text-slate-300">ACTIVE_LISTENING</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-pink-400 text-sm">flag</span>
-                                                        <span className="font-code text-[10px] text-slate-300">PROJECT_OWNERSHIP</span>
+                                                        <span className="material-symbols-outlined text-pink-400 text-sm">analytics</span>
+                                                        <span className="font-code text-[10px] text-slate-300">DATA_STORYTELLING</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* ANALYTICAL_SKILLS */}
+                                            <div className="relative pl-4 border-l-2 border-retro-dim/30">
+                                                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-retro-bg border-2 border-retro-amber"></div>
+                                                <h4 className="font-pixel text-[10px] text-retro-amber mb-4 pl-2">ANALYTICAL_SKILLS</h4>
+
+                                                <div className="grid grid-cols-1 gap-3">
+                                                    <div className="flex items-center gap-2 group">
+                                                        <span className="material-symbols-outlined text-retro-amber text-sm">psychology</span>
+                                                        <span className="font-code text-[10px] text-slate-300">SYSTEM_THINKING</span>
                                                     </div>
                                                     <div className="flex items-center gap-2 group">
-                                                        <span className="material-symbols-outlined text-pink-400 text-sm">diversity_3</span>
-                                                        <span className="font-code text-[10px] text-slate-300">TEAM_MENTORSHIP</span>
+                                                        <span className="material-symbols-outlined text-retro-amber text-sm">troubleshoot</span>
+                                                        <span className="font-code text-[10px] text-slate-300">PROBLEM_SOLVING</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 group">
+                                                        <span className="material-symbols-outlined text-retro-amber text-sm">sprint</span>
+                                                        <span className="font-code text-[10px] text-slate-300">AGILE_SCRUM</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1296,7 +1355,7 @@
                                     </div>
 
                                     <div className="text-center pt-4">
-                                        <a href="mailto:dangthaianh.work@gmail.com" className="inline-block px-6 py-3 border border-retro-amber text-retro-amber font-pixel text-xs hover:bg-retro-amber hover:text-retro-bg transition-colors pixel-btn animate-pulse">
+                                        <a href="mailto:baoanh2329@gmail.com" className="inline-block px-6 py-3 border border-retro-amber text-retro-amber font-pixel text-xs hover:bg-retro-amber hover:text-retro-bg transition-colors pixel-btn animate-pulse">
                                             [ RECRUIT_PLAYER ]
                                         </a>
                                     </div>
@@ -1315,7 +1374,7 @@
                     <div className="flex justify-center gap-8 mb-8">
                         {[
                             { icon: 'share', label: 'LinkedIn', href: 'https://www.linkedin.com/in/718752332/' },
-                            { icon: 'mail', label: 'Email', href: 'mailto:dangthaianh.work@gmail.com' },
+                            { icon: 'mail', label: 'Email', href: 'mailto:baoanh2329@gmail.com' },
                             { icon: 'call', label: 'Phone', href: 'tel:+84826290409' }
                         ].map((link, i) => (
                             <a key={i} href={link.href} target="_blank" className="flex flex-col items-center gap-2 group hover:text-retro-cyan transition-colors text-slate-500">
@@ -1337,8 +1396,8 @@
 
             const projectData = {
                 business: [
-                    '24-year historical data → 97.88% accuracy. Actionable trend insights for risk analysis.',
-                    'Streamlined ops with n8n → 90% efficiency gain. Auto-email & cross-platform sync.',
+                    '24-year historical data → 80+% accuracy. Actionable trend insights for risk analysis.',
+                    'Streamlined ops with n8n → saved ~15h/week. Auto-email & cross-platform sync.',
                     'Strategic simulation with advanced AI. Pattern recognition + Monte Carlo algorithms.',
                     '10+ dashboards for e-commerce & banking. Customer segmentation & churn forecasting.'
                 ],
@@ -1368,53 +1427,74 @@
                                     <span className="text-retro-dim">|</span>
                                     <span className="text-glow-cyan"># AI_AUTOMATION</span>
                                     <span className="text-retro-dim">|</span>
-                                    <span className="text-glow-amber"># BUSINESS_STRATEGY</span>
+                                    <span className="text-glow-amber"># PROCESS_OPTIMIZATION</span>
                                 </div>
                             </div>
                         </section>
 
-                        {/* ACHIEVEMENTS */}
+                        {/* ACHIEVEMENTS - STATS */}
                         <section style={{ height: '5%', background: 'linear-gradient(90deg, #ffb000 0%, #00ff41 100%)', display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '0 24px' }}>
                             <div className="font-retro text-sm flex items-center gap-2" style={{ color: '#020c1b', fontWeight: 'bold' }}>
-                                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>verified</span> CFA L1 CANDIDATE (AUG 2026)
+                                <span className="font-pixel text-2xl" style={{ color: '#020c1b' }}>20+</span>
+                                <span>COMPETITIONS & PROJECTS</span>
                             </div>
                             <div className="font-retro text-sm flex items-center gap-2" style={{ color: '#020c1b', fontWeight: 'bold' }}>
-                                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>monitoring</span> 97.88% ACCURACY LSTM MODEL
+                                <span className="font-pixel text-2xl" style={{ color: '#020c1b' }}>10+</span>
+                                <span>AI AGENTS & WORKFLOWS</span>
                             </div>
                             <div className="font-retro text-sm flex items-center gap-2" style={{ color: '#020c1b', fontWeight: 'bold' }}>
-                                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>bolt</span> 10+ AI AGENT WORKFLOWS
+                                <span className="font-pixel text-2xl" style={{ color: '#020c1b' }}>10+</span>
+                                <span>PERSONAL PROJECTS</span>
                             </div>
                         </section>
 
+                        {/* PROFESSIONAL PROFILE */}
+                        <section style={{ padding: '12px 24px', borderBottom: '1px solid #00ff41', background: 'rgba(0, 255, 65, 0.03)' }}>
+                            <h2 className="font-retro text-lg glow-green mb-2 tracking-wider">&gt;&gt; PROFESSIONAL_PROFILE</h2>
+                            <p className="font-mono text-sm text-slate-300 leading-relaxed">
+                                Techno-Functional <span className="glow-amber font-bold">Business Analyst</span> bridging the gap between Economic Strategy and Technical Execution. Leveraging <span className="glow-green">Python & n8n</span> to transform manual banking workflows into automated, scalable systems. <span className="glow-cyan">CFA Level 1 Candidate</span> with a proven ability to translate complex financial data into actionable Power BI insights.
+                            </p>
+                        </section>
+
                         {/* MAIN CONTENT GRID */}
-                        <div style={{ display: 'flex', height: '45%', borderBottom: '1px solid #00ff41' }}>
+                        <div style={{ display: 'flex', minHeight: 'auto', borderBottom: '1px solid #00ff41' }}>
                             {/* LEFT: Experience (65%) */}
                             <section style={{ width: '65%', borderRight: '1px solid #00ff41', padding: '16px 24px', overflow: 'hidden' }}>
                                 <h2 className="font-retro text-xl glow-green underline-offset-8 decoration-2 mb-4 tracking-wider">&gt;&gt; WORK EXPERIENCE</h2>
                                 <div className="space-y-6">
                                     <div className="experience-card" style={{ borderLeftColor: '#00ff41' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                            <span className="font-retro text-lg text-white">Data Analyst & Automation Lead</span>
-                                            <span className="font-mono text-[10px] text-retro-dim italic">SEP 2022 – PRESENT</span>
+                                            <span className="font-retro text-lg text-white">Business Intelligence Specialist</span>
+                                            <span className="font-mono text-[10px] text-retro-dim italic">NOV 2024 – PRESENT</span>
                                         </div>
-                                        <div className="font-mono text-xs text-retro-cyan mb-2">MARCHING DRUM SOLUTIONS (CLUB)</div>
+                                        <div className="font-mono text-xs text-retro-cyan mb-2">APPLIED MATH & DATA SCIENCE CLUB (MDS - FTU2)</div>
                                         <ul className="font-mono text-[11px] text-slate-300 space-y-1">
-                                            <li>• Mastered <span className="glow-green">n8n & Python</span> to automate club financial auditing routines.</li>
-                                            <li>• Engineered 5+ Power BI dashboards for resource tracking.</li>
-                                            <li>• Trained 15+ members in data literacy & automation tools.</li>
+                                            <li>• Analyzed banking customer data to identify behavioral patterns using <span className="glow-green">Python & SQL</span>.</li>
+                                            <li>• Built interactive Power BI dashboards for customer segmentation and churn analysis.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div className="experience-card" style={{ borderLeftColor: '#00d4ff' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                                            <span className="font-retro text-lg text-white">Technical Leader | R&D Team</span>
+                                            <span className="font-mono text-[10px] text-retro-dim italic">2025</span>
+                                        </div>
+                                        <div className="font-mono text-xs text-retro-cyan mb-2">DAZONE 2025 (NATIONAL DATA COMPETITION)</div>
+                                        <ul className="font-mono text-[11px] text-slate-300 space-y-1">
+                                            <li>• Co-authored evaluation metrics with industry sponsors (<span className="glow-cyan">Home Credit, Viettel</span>).</li>
+                                            <li>• Directed technical audits ensuring <span className="glow-cyan">zero downtime for 500+ competitors</span>.</li>
                                         </ul>
                                     </div>
 
                                     <div className="experience-card" style={{ borderLeftColor: '#ffb000' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                                            <span className="font-retro text-lg text-white">R&D Lab Assistant</span>
-                                            <span className="font-mono text-[10px] text-retro-dim italic">JUNE 2024 – PRESENT</span>
+                                            <span className="font-retro text-lg text-white">Internal Vice President <span className="text-slate-400 text-sm">| Head of HR</span></span>
+                                            <span className="font-mono text-[10px] text-retro-dim italic">JUL 2025 – PRESENT</span>
                                         </div>
-                                        <div className="font-mono text-xs text-retro-cyan mb-2">DAZONE INNOVATION HUB</div>
+                                        <div className="font-mono text-xs text-retro-cyan mb-2">RESEARCH CLUB FOR STUDENTS (RCS)</div>
                                         <ul className="font-mono text-[11px] text-slate-300 space-y-1">
-                                            <li>• Developed <span className="glow-amber">Go (game) AI</span> using Monte Carlo Tree Search.</li>
-                                            <li>• Audited 100+ automation scripts for performance optimization.</li>
-                                            <li>• Built a internal RAG-based LLM bot for documentation search.</li>
+                                            <li>• Orchestrated organizational restructuring and talent development for <span className="glow-amber">50+ active members</span>.</li>
+                                            <li>• Implemented data-driven performance metrics and streamlined internal operations.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -1428,7 +1508,7 @@
                                     <div>
                                         <div className="font-retro text-sm text-retro-green mb-1 flex justify-between">
                                             <span>PYTHON / AI</span>
-                                            <span>90%</span>
+                                            <span>[STATUS: ADVANCED]</span>
                                         </div>
                                         <div className="progress-bar" style={{ '--progress': '90%' }} data-label="NUMPY / PANDAS / TF"></div>
                                     </div>
@@ -1436,7 +1516,7 @@
                                     <div>
                                         <div className="font-retro text-sm text-retro-cyan mb-1 flex justify-between">
                                             <span>DATA VIZ / BI</span>
-                                            <span>95%</span>
+                                            <span>[STATUS: EXPERT]</span>
                                         </div>
                                         <div className="progress-bar" style={{ '--progress': '95%' }} data-label="POWER BI / DAX / SQL"></div>
                                     </div>
@@ -1444,18 +1524,31 @@
                                     <div>
                                         <div className="font-retro text-sm text-purple-400 mb-1 flex justify-between">
                                             <span>AUTOMATION</span>
-                                            <span>85%</span>
+                                            <span>[STATUS: PROFICIENT]</span>
                                         </div>
                                         <div className="progress-bar" style={{ '--progress': '85%' }} data-label="n8n / API / WEBHOOKS"></div>
                                     </div>
 
-                                    <div className="pt-4 border-t border-retro-dim/30">
-                                        <h3 className="font-retro text-xs text-slate-400 uppercase mb-3 tracking-widest">Core Competencies</h3>
-                                        <div className="flex flex-wrap gap-2">
-                                            <span className="skill-tag" style={{ border: '1px solid #00ff41', color: '#00ff41' }}>STM MODELING</span>
-                                            <span className="skill-tag" style={{ border: '1px solid #00d4ff', color: '#00d4ff' }}>FINANCIAL ANALYSIS</span>
-                                            <span className="skill-tag" style={{ border: '1px solid #ffb000', color: '#ffb000' }}>AGILE PM</span>
-                                            <span className="skill-tag" style={{ border: '1px solid #e879f9', color: '#e879f9' }}>LLM OPTIMIZATION</span>
+                                    {/* HARD SKILLS */}
+                                    <div className="pt-3 border-t border-retro-dim/30">
+                                        <h3 className="font-retro text-sm text-retro-green uppercase mb-2 tracking-widest">&gt; Hard Skills</h3>
+                                        <div className="space-y-1 font-mono text-xs">
+                                            <div><span className="text-retro-green font-bold">Data Analysis & VIZ:</span> <span className="text-slate-400">Python (Pandas, NumPy), SQL, Power BI (DAX, Power Query), Tableau, Excel (VBA)</span></div>
+                                            <div><span className="text-glow-amber font-bold">Quant & Finance:</span> <span className="text-slate-400">Financial Modeling, Monte Carlo Simulation, Time-series Forecasting (LSTM), Risk Analysis</span></div>
+                                            <div><span className="text-retro-cyan font-bold">Dev Tools:</span> <span className="text-slate-400">Git/GitHub, VS Code, Postman</span></div>
+                                        </div>
+                                    </div>
+
+                                    {/* SOFT SKILLS */}
+                                    <div className="pt-3 border-t border-retro-dim/30">
+                                        <h3 className="font-retro text-sm text-glow-amber uppercase mb-2 tracking-widest">&gt; Soft Skills</h3>
+                                        <div className="flex flex-wrap gap-2 font-mono text-xs">
+                                            <span className="text-fuchsia-400 font-bold">• Stakeholder Management</span>
+                                            <span className="text-fuchsia-400 font-bold">• Communication</span>
+                                            <span className="text-fuchsia-400 font-bold">• Requirements Elicitation</span>
+                                            <span className="text-fuchsia-400 font-bold">• Data Storytelling</span>
+                                            <span className="text-fuchsia-400 font-bold">• Problem Solving</span>
+                                            <span className="text-fuchsia-400 font-bold">• Agile/Scrum</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1484,7 +1577,7 @@
                                 </div>
 
                                 <div className="project-card" style={{ padding: '10px' }}>
-                                    <h4 style={{ fontSize: '14px', marginBottom: '4px' }}>n8n Flow Master</h4>
+                                    <h4 style={{ fontSize: '14px', marginBottom: '4px' }}>Cross-Platform Automation</h4>
                                     <p className="font-mono text-xs" style={{ color: '#888' }}>{projectData[view][1]}</p>
                                     <div style={{ marginTop: '6px', display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                                         <span style={{ background: '#00ff41', color: '#020c1b', padding: '1px 6px', fontSize: '9px' }}>Automation</span>
@@ -1513,33 +1606,52 @@
                         </section>
 
                         {/* FOOTER */}
-                        <section style={{ height: '13%', padding: '16px 24px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                                <h3 className="font-retro text-base glow-blue mb-2">EDUCATION & CERTIFICATIONS</h3>
-                                <div className="font-mono text-xs" style={{ color: '#ccc', lineHeight: 1.8 }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="#00ff41"><polygon points="5,0 10,5 5,10 0,5" /></svg>
-                                        <span style={{ fontWeight: 'bold' }}>Foreign Trade University (FTU)</span> - Bachelor of Int'l Economics | Expected 2028
+                        <section style={{ padding: '16px 24px', borderTop: '1px solid #00ff41', background: 'linear-gradient(to bottom, transparent, rgba(0, 255, 65, 0.05))' }}>
+                            {/* Education & Certs Header */}
+                            <h2 className="font-retro text-lg glow-green mb-3 tracking-wider">&gt;&gt; EDUCATION & CERTIFICATIONS</h2>
+
+                            {/* Education & Certs Row */}
+                            <div style={{ display: 'flex', gap: '24px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                                <div className="font-mono text-sm" style={{ color: '#ccc', display: 'flex', alignItems: 'flex-start', gap: '8px', flex: '1', minWidth: '180px' }}>
+                                    <span className="material-symbols-outlined text-retro-green" style={{ fontSize: '18px', marginTop: '2px' }}>school</span>
+                                    <div>
+                                        <div className="text-white font-bold">Foreign Trade University (FTU)</div>
+                                        <div className="text-slate-400 text-xs">Bachelor of International Economics | 2024 - 2028</div>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="#ffb000"><polygon points="5,0 10,5 5,10 0,5" /></svg>
-                                        <span style={{ fontWeight: 'bold' }}>CFA Level 1 Candidate</span> - Exam Scheduled: Aug 2026
+                                </div>
+                                <div className="font-mono text-sm" style={{ color: '#ccc', display: 'flex', alignItems: 'flex-start', gap: '8px', flex: '1', minWidth: '150px' }}>
+                                    <span className="material-symbols-outlined text-glow-amber" style={{ fontSize: '18px', marginTop: '2px' }}>verified</span>
+                                    <div>
+                                        <div className="text-white font-bold">CFA Level 1 Candidate</div>
+                                        <div className="text-slate-400 text-xs">Expected: Aug 2026</div>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="#00d4ff"><polygon points="5,0 10,5 5,10 0,5" /></svg>
-                                        <span style={{ fontWeight: 'bold' }}>IELTS 7.0</span> (Reading: 8.0) - Valid
+                                </div>
+                                <div className="font-mono text-sm" style={{ color: '#ccc', display: 'flex', alignItems: 'flex-start', gap: '8px', flex: '1', minWidth: '120px' }}>
+                                    <span className="material-symbols-outlined text-retro-cyan" style={{ fontSize: '18px', marginTop: '2px' }}>language</span>
+                                    <div>
+                                        <div className="text-white font-bold">IELTS 7.0</div>
+                                        <div className="text-slate-400 text-xs">Reading: 8.0</div>
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ width: '80%', height: '1px', background: 'linear-gradient(90deg, transparent, #00ff41, transparent)', margin: '8px 0' }}></div>
-                            <div style={{ textAlign: 'center' }}>
-                                <div className="font-mono text-sm glow-green" style={{ lineHeight: 2, letterSpacing: '1px' }}>
-                                    <div style={{ display: 'flex', gap: '24px', justifyContent: 'center', alignContent: 'center' }}>
-                                        <span>dangthaianh.work@gmail.com</span>
-                                        <a href="https://linkedin.com/in/718752332" target="_blank" style={{ color: '#00ff41' }}>linkedin.com/in/718752332</a>
-                                        <span>Ho Chi Minh City, Vietnam</span>
-                                    </div>
-                                </div>
+
+                            {/* Divider */}
+                            <div style={{ width: '60%', height: '1px', background: 'linear-gradient(90deg, transparent, #00ff41, transparent)', margin: '0 auto 12px' }}></div>
+
+                            {/* Contact Row */}
+                            <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', flexWrap: 'wrap' }}>
+                                <a href="mailto:dangthaianh.work@gmail.com" className="font-mono text-xs glow-green" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>mail</span>
+                                    dangthaianh.work@gmail.com
+                                </a>
+                                <a href="https://linkedin.com/in/718752332" target="_blank" className="font-mono text-xs glow-cyan" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>link</span>
+                                    linkedin.com/in/718752332
+                                </a>
+                                <span className="font-mono text-xs" style={{ color: '#ffb000', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>location_on</span>
+                                    Ho Chi Minh City, Vietnam
+                                </span>
                             </div>
                         </section>
                     </div>
