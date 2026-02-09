@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dang Thai Anh | Fintech & Data Intelligence Portfolio</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2d00d",
+                        "primary-alt": "#1152d4",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#0f172a",
+                        "accent-cyan": "#22d3ee",
+                        "accent-gold": "#FFD700",
+                        "surface-dark": "#161b26",
+                        "navy-deep": "#0a192f",
+                        "gold": "#D4AF37",
+                        "neon-cyan": "#00f5ff",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Inter", "system-ui", "sans-serif"],
+                        "space": ["Space Grotesk", "sans-serif"],
+                        "manrope": ["Manrope", "sans-serif"],
+                        "lexend": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "md": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        @layer base {
+            body {
+                @apply bg-background-dark text-slate-200 antialiased overflow-x-hidden;
+            }
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(242, 208, 13, 0.1);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.05) 0%, rgba(15, 23, 42, 1) 70%);
+        }
+
+        .node-line {
+            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), transparent);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pipeline-gradient {
+            background: linear-gradient(90deg, rgba(15, 69, 179, 0) 0%, rgba(15, 69, 179, 0.5) 50%, rgba(15, 69, 179, 0) 100%);
+        }
+
+        .bento-card {
+            background: rgba(22, 27, 38, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .progress-ring__circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .glass-card-navy-gold {
+            background: linear-gradient(135deg, rgba(13, 22, 38, 0.9) 0%, rgba(10, 25, 47, 0.95) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .social-card:hover {
+            border-color: #1152d4;
+            box-shadow: 0 0 15px rgba(17, 82, 212, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark font-sans text-slate-200 antialiased overflow-x-hidden">
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Common Components ---
+
+        const Navigation = () => {
+            const navigate = useNavigate();
+            return (
+                <nav class="fixed top-0 left-0 right-0 z-50 glass-nav h-20 flex items-center">
+                    <div class="max-w-7xl mx-auto w-full px-6 flex justify-between items-center">
+                        <Link to="/" class="flex items-center gap-2 group cursor-pointer">
+                            <div class="size-10 bg-primary/10 rounded flex items-center justify-center border border-primary/20 group-hover:border-primary transition-colors">
+                                <span class="material-symbols-outlined text-primary text-2xl">account_balance</span>
+                            </div>
+                            <span class="text-xl font-bold tracking-tighter text-white font-display">DTA</span>
+                        </Link>
+                        <div class="hidden md:flex items-center gap-10">
+                            <Link to="/" class="text-sm font-medium hover:text-primary transition-colors">Home</Link>
+                            <Link to="/vault" class="text-sm font-medium hover:text-primary transition-colors">Projects</Link>
+                            <Link to="/automation" class="text-sm font-medium hover:text-primary transition-colors">Automation</Link>
+                            <Link to="/experience" class="text-sm font-medium hover:text-primary transition-colors">Experience</Link>
+                        </div>
+                        <a href="https://www.linkedin.com/in/718752332/" target="_blank" rel="noopener noreferrer" class="bg-primary hover:bg-primary/90 text-background-dark px-6 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 transition-all active:scale-95">
+                            Connect
+                            <span class="material-symbols-outlined text-sm">north_east</span>
+                        </a>
+                    </div>
+                </nav>
+            );
+        };
+
+        const Footer = () => {
+            return (
+                <footer class="w-full bg-white dark:bg-[#0f172a] border-t border-slate-200 dark:border-slate-800 pt-20 pb-10 transition-colors duration-300 relative">
+                    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+                        <div class="flex flex-col items-center text-center mb-16">
+                            <div class="mb-6 h-px w-24 bg-gradient-to-r from-transparent via-primary-alt to-transparent opacity-50"></div>
+                            <h2 class="text-2xl md:text-4xl font-manrope font-light tracking-tight text-slate-900 dark:text-white max-w-2xl leading-relaxed">
+                                Bridging the gap between <span class="font-bold text-primary italic">Economics</span> and <span class="font-bold text-primary italic">Algorithms.</span>
+                            </h2>
+                            <p class="mt-4 text-slate-500 dark:text-slate-400 text-sm uppercase tracking-[0.3em] font-medium">Business Analyst & Automation Development</p>
+                        </div>
+                        <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-20 max-w-4xl mx-auto">
+                            <a class="social-card flex flex-col items-center gap-3 p-6 min-w-[160px] md:min-w-[200px] rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 transition-all duration-300 group" href="https://www.linkedin.com/in/718752332/" target="_blank" rel="noopener noreferrer">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 group-hover:bg-primary-alt group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">share</span>
+                                </div>
+                                <span class="text-sm font-semibold tracking-wide uppercase dark:group-hover:text-primary-alt transition-colors">LinkedIn</span>
+                            </a>
+                            <a class="social-card flex flex-col items-center gap-3 p-6 min-w-[160px] md:min-w-[200px] rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 transition-all duration-300 group" href="mailto:baoanh2329@gmail.com">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 group-hover:bg-primary-alt group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">mail</span>
+                                </div>
+                                <span class="text-sm font-semibold tracking-wide uppercase dark:group-hover:text-primary-alt transition-colors">Email</span>
+                            </a>
+                            <a class="social-card flex flex-col items-center gap-3 p-6 min-w-[160px] md:min-w-[200px] rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 transition-all duration-300 group" href="tel:+84826290409">
+                                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 group-hover:bg-primary-alt group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">call</span>
+                                </div>
+                                <span class="text-sm font-semibold tracking-wide uppercase dark:group-hover:text-primary-alt transition-colors">Phone</span>
+                            </a>
+                        </div>
+                        <div class="flex flex-col items-center gap-6">
+                            <div class="w-full h-px bg-gradient-to-r from-transparent via-slate-300 dark:via-slate-700 to-transparent"></div>
+                            <div class="flex flex-col md:flex-row items-center justify-between w-full gap-4 text-slate-500 dark:text-slate-500 text-xs tracking-widest uppercase">
+                                <div class="flex items-center gap-8">
+                                    <a class="hover:text-primary transition-colors" href="#">Resume</a>
+                                    <a class="hover:text-primary transition-colors" href="#">Privacy</a>
+                                    <a class="hover:text-primary transition-colors" href="#">Security</a>
+                                </div>
+                                <p class="font-medium">© 2026 Dang Thai Anh. All rights reserved.</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    <span>System Status: Optimal</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            );
+        };
+
+        // --- Screen 1: Landing Page ---
+
+        const HomePage = () => {
+            const navigate = useNavigate();
+            return (
+                <div class="bg-background-dark">
+                    <Navigation />
+                    <main class="relative min-h-screen flex flex-col items-center justify-center hero-gradient pt-20 px-6">
+                        <div class="absolute inset-0 z-0 opacity-20" style={{ backgroundImage: "radial-gradient(#334155 1px, transparent 1px)", backgroundSize: "40px 40px" }}></div>
+                        <div class="relative z-10 w-full max-w-5xl flex flex-col items-center text-center">
+                            <div class="mb-8 flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700 backdrop-blur-sm">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                </span>
+                                <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">System Online: Open for Opportunities</span>
+                            </div>
+                            <h1 class="text-white text-6xl md:text-8xl font-display font-medium mb-6 tracking-tight">
+                                Dang Thai Anh
+                            </h1>
+                            <div class="mb-12 max-w-2xl">
+                                <p class="text-slate-400 text-lg md:text-xl leading-relaxed mb-4">
+                                    Business Analyst & Business Intelligence Intern
+                                </p>
+                                <div class="flex items-center justify-center gap-4 font-mono text-sm">
+                                    <span class="flex items-center gap-1.5 text-accent-cyan">
+                                        <span class="material-symbols-outlined text-base">school</span>
+                                        FTU K63 Student
+                                    </span>
+                                    <span class="w-1.5 h-1.5 rounded-full bg-slate-700"></span>
+                                    <span class="flex items-center gap-1.5 text-primary">
+                                        <span class="material-symbols-outlined text-base">workspace_premium</span>
+                                        CFA Candidate
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Hero Interactive Node Visual */}
+                            <div class="relative w-full h-[320px] mb-12 flex items-center justify-center">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="relative w-full max-w-md h-full">
+                                        <div class="absolute top-1/2 left-0 w-full h-[1px] node-line transform -translate-y-1/2"></div>
+                                        <div class="absolute top-1/2 left-1/2 w-full h-[1px] node-line transform -translate-y-1/2 rotate-45 -translate-x-1/2"></div>
+                                        <div class="absolute top-1/2 left-1/2 w-full h-[1px] node-line transform -translate-y-1/2 -rotate-45 -translate-x-1/2"></div>
+                                        <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 md:-translate-x-full">
+                                            <div class="size-24 md:size-32 rounded-2xl bg-primary/10 border-2 border-primary/50 flex items-center justify-center shadow-[0_0_50px_rgba(242,208,13,0.2)]">
+                                                <span class="material-symbols-outlined text-5xl md:text-6xl text-primary leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>monetization_on</span>
+                                            </div>
+                                        </div>
+                                        <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 md:translate-x-full">
+                                            <div class="size-24 md:size-32 rounded-2xl bg-accent-cyan/10 border-2 border-accent-cyan/50 flex items-center justify-center shadow-[0_0_50px_rgba(34,211,238,0.2)]">
+                                                <span class="material-symbols-outlined text-5xl md:text-6xl text-accent-cyan leading-none" style={{ fontVariationSettings: "'FILL' 1" }}>memory</span>
+                                            </div>
+                                        </div>
+                                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                            <div class="size-16 rounded-full bg-slate-900 border border-slate-700 flex items-center justify-center">
+                                                <div class="size-8 rounded-full bg-slate-800 animate-pulse flex items-center justify-center">
+                                                    <div class="size-3 rounded-full bg-accent-cyan"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row items-center gap-6">
+                                <button onClick={() => navigate('/vault')} class="min-w-[200px] h-14 bg-primary text-background-dark font-bold rounded-lg flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(242,208,13,0.3)] transition-all active:scale-95 group">
+                                    View Projects
+                                    <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+                                </button>
+                                <button class="min-w-[200px] h-14 border border-slate-700 hover:border-primary text-white font-medium rounded-lg flex items-center justify-center gap-2 hover:bg-primary/5 transition-all active:scale-95 group">
+                                    Download Resume
+                                    <span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">download</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-20 z-10 w-full mb-12">
+                            <div class="max-w-7xl mx-auto px-6 flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-60 hover:opacity-100 transition-opacity">
+                                <div class="flex flex-col items-center md:items-start">
+                                    <span class="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Specialization</span>
+                                    <span class="text-sm font-semibold text-slate-300">Financial Analysis</span>
+                                </div>
+                                <div class="flex flex-col items-center md:items-start">
+                                    <span class="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Frameworks</span>
+                                    <span class="text-sm font-semibold text-slate-300">Python • PowerBI • SQL</span>
+                                </div>
+                                <div class="flex flex-col items-center md:items-start">
+                                    <span class="text-[10px] uppercase tracking-widest text-slate-500 font-mono">Location</span>
+                                    <span class="text-sm font-semibold text-slate-300">HCMC, VietNam</span>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                    <Footer />
+                </div>
+            );
+        };
+
+        // --- Screen 2: Dual-View Project Vault ---
+
+        const VaultPage = () => {
+            const [view, setView] = useState('business'); // 'business' or 'tech'
+
+            const projects = [
+                {
+                    title: "Gold Price Prediction",
+                    businessDesc: "Data analysis & trend insights for informed decision-making.",
+                    techDesc: "Stacked LSTM with 6,000+ data points & 97.88% accuracy.",
+                    cat: "Finance",
+                    techCat: "AI/ML",
+                    img: "./gold-prediction.png",
+                    stat1Label: "Accuracy",
+                    stat1Value: "97.88%",
+                    stat2Label: "Error Rate",
+                    stat2Value: "MAPE: 2.12%",
+                    highlights: ["24-year historical data analysis", "Actionable trend insights & forecasts"],
+                    tags: ["LSTM", "Python", "TensorFlow", "yfinance"],
+                    code: "model.add(LSTM(units=50, return_sequences=True))\nmodel.add(Dropout(0.2))\nmodel.add(Dense(units=1))",
+                    layers: ["Input (60,1)", "LSTM×2", "Dropout×2", "Dense", "Output"],
+                    caseStudyUrl: "https://docs.google.com/document/d/1hwatR1Uf-clq93EtXT16dzIp3EMp_NNuzjg1FXnJg64/edit?usp=sharing"
+                },
+                {
+                    title: "DAZONE 2025",
+                    businessDesc: "Technical Committee for national Data competition.",
+                    techDesc: "Question design & scoring criteria development.",
+                    cat: "Competition",
+                    techCat: "Data Analysis",
+                    img: "./dazone-2025.png",
+                    stat1Label: "Role",
+                    stat1Value: "Final Lead",
+                    stat2Label: "Scale",
+                    stat2Value: "National",
+                    highlights: ["Created & supervised competition questions", "Developed scoring criteria"],
+                    tags: ["Excel", "Power BI", "Data Analysis", "SQL"],
+                    techDetails: ["Exposure to Data Analytics environment & industry experts", "Deep understanding of competition structures & evaluation", "Problem-solving mindset for data-driven business decisions"],
+                    caseStudyUrl: "https://www.facebook.com/DAZONE.RCS"
+                },
+                {
+                    title: "MDS Datathon 2025",
+                    businessDesc: "Organizing Committee for large-scale Data competition.",
+                    techDesc: "Event coordination & competition management.",
+                    cat: "Competition",
+                    techCat: "Data Analysis",
+                    img: "./mds-2025.jpg",
+                    stat1Label: "Role",
+                    stat1Value: "Organizer",
+                    stat2Label: "Scale",
+                    stat2Value: "National",
+                    highlights: ["Competition event coordination", "Participant management & support"],
+                    tags: ["Excel", "Power BI", "Python", "SQL"],
+                    techDetails: ["Networking with DA professionals & mentors", "End-to-end event management experience", "Real-world data problem case studies exposure"],
+                    caseStudyUrl: "https://www.facebook.com/photo/?fbid=1173127614354613&set=p.1173127614354613"
+                },
+                {
+                    title: "Caro Game AI",
+                    businessDesc: "Strategic board game with intelligent AI opponent.",
+                    techDesc: "Heuristic-based evaluation for optimal moves.",
+                    cat: "Game Dev",
+                    techCat: "AI/Logic",
+                    img: "./caro-game.png",
+                    stat1Label: "AI Type",
+                    stat1Value: "Heuristic",
+                    stat2Label: "Difficulty",
+                    stat2Value: "3 Levels",
+                    highlights: ["Pattern recognition algorithm", "Multi-level difficulty system"],
+                    tags: ["Python", "Pygame", "Heuristic AI"],
+                    techDetails: ["Implemented pattern-based board evaluation", "Built minimax with alpha-beta pruning", "Created adaptive difficulty system"],
+                    caseStudyUrl: "https://drive.google.com/drive/folders/1TjGqJm1zoacGLnEKuyNvqdaxKZZN_mwQ?usp=sharing"
+                },
+                {
+                    title: "Go Game AI",
+                    businessDesc: "Classic strategy game with advanced AI engine.",
+                    techDesc: "Monte Carlo Tree Search (MCTS) implementation.",
+                    cat: "Game Dev",
+                    techCat: "AI/Logic",
+                    img: "./go-game.png",
+                    stat1Label: "AI Type",
+                    stat1Value: "MCTS",
+                    stat2Label: "Board",
+                    stat2Value: "9x9 / 19x19",
+                    highlights: ["Monte Carlo Tree Search algorithm", "Territory scoring system"],
+                    tags: ["Python", "MCTS", "Deep Learning"],
+                    techDetails: ["Built Monte Carlo Tree Search from scratch", "Implemented UCB1 selection policy", "Developed territory scoring algorithm"],
+                    caseStudyUrl: "https://drive.google.com/drive/folders/1WLgqOaUbQBqf1Kih2wpx_rKnmxYD1uZW?usp=sharing"
+                },
+                {
+                    title: "Power BI Dashboards",
+                    businessDesc: "10+ interactive dashboards for business analytics.",
+                    techDesc: "Data visualization with DAX & Power Query.",
+                    cat: "Analytics",
+                    techCat: "BI/Viz",
+                    img: "./olist-dashboard.jpg",
+                    stat1Label: "Dashboards",
+                    stat1Value: "10+",
+                    stat2Label: "Domain",
+                    stat2Value: "Multi-Industry",
+                    highlights: ["E-commerce & Banking analytics", "Customer segmentation & forecasting"],
+                    tags: ["Power BI", "DAX", "Power Query", "SQL"],
+                    techDetails: ["Advanced DAX measures & calculated columns", "Data modeling with star schema", "Interactive filters & drill-through reports"],
+                    caseStudyUrl: "#"
+                }
+            ];
+
+            return (
+                <div class="bg-background-dark min-h-screen">
+                    <Navigation />
+                    <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-12 pt-32">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                            <div class="max-w-2xl">
+                                <h2 class="text-5xl font-space font-bold mb-4 bg-gradient-to-r from-white to-slate-500 bg-clip-text text-transparent">Dual-View Project Vault</h2>
+                                <p class="text-lg text-slate-400 leading-relaxed mb-6">
+                                    An interactive window into my portfolio. Toggle between high-level <span class="text-accent-gold font-semibold">Strategic Impact</span> and deep-dive <span class="text-accent-cyan font-semibold">Technical Implementation</span>.
+                                </p>
+                                <div class="flex gap-6">
+                                    <div class="flex items-center gap-3 p-3 glass rounded-lg">
+                                        <span class="material-symbols-outlined text-accent-cyan text-2xl">smart_toy</span>
+                                        <div>
+                                            <p class="text-2xl font-bold text-white">10+</p>
+                                            <p class="text-[10px] text-slate-400 uppercase tracking-wider">AI Agents Made</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-3 glass rounded-lg">
+                                        <span class="material-symbols-outlined text-accent-gold text-2xl">emoji_events</span>
+                                        <div>
+                                            <p class="text-2xl font-bold text-white">20+</p>
+                                            <p class="text-[10px] text-slate-400 uppercase tracking-wider">Projects & Competitions</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-1 glass rounded-xl w-full md:w-80 relative flex items-center">
+                                <div class={`absolute inset-y-1 left-1 w-[calc(50%-4px)] bg-primary-alt rounded-lg transition-transform duration-300 ease-in-out ${view === 'tech' ? 'translate-x-full' : ''}`}></div>
+                                <button onClick={() => setView('business')} class={`relative flex-1 py-2 text-sm font-bold transition-colors z-10 ${view === 'business' ? 'text-white' : 'text-slate-400'}`}>
+                                    Business Context
+                                </button>
+                                <button onClick={() => setView('tech')} class={`relative flex-1 py-2 text-sm font-bold transition-colors z-10 ${view === 'tech' ? 'text-white' : 'text-slate-400'}`}>
+                                    Technical Spec
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {projects.map((p, idx) => (
+                                <div key={idx} class="group relative flex flex-col glass rounded-xl overflow-hidden hover:border-primary-alt/50 transition-all duration-500">
+                                    <div class="aspect-video w-full overflow-hidden relative">
+                                        <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${p.img})` }}></div>
+                                        <div class="absolute top-4 right-4">
+                                            {view === 'business' ? (
+                                                <span class="px-3 py-1 glass border-accent-gold/30 text-accent-gold text-[10px] font-bold uppercase rounded-full tracking-tighter">{p.cat}</span>
+                                            ) : (
+                                                <span class="px-3 py-1 glass border-accent-cyan/30 text-accent-cyan text-[10px] font-bold uppercase rounded-full tracking-tighter">{p.techCat}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div class="p-6 flex-1 flex flex-col">
+                                        <div class="mb-4">
+                                            <h3 class="text-xl font-bold group-hover:text-primary transition-colors">{p.title}</h3>
+                                            <p class="text-sm text-slate-400 mt-1">{view === 'business' ? p.businessDesc : p.techDesc}</p>
+                                        </div>
+
+                                        {view === 'business' ? (
+                                            <div class="space-y-4 flex-1">
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                                        <p class="text-[10px] uppercase text-slate-500 font-bold mb-1">{p.stat1Label || 'Metric 1'}</p>
+                                                        <p class="text-lg font-bold text-accent-gold">{p.stat1Value}</p>
+                                                    </div>
+                                                    <div class="p-3 bg-white/5 rounded-lg border border-white/5">
+                                                        <p class="text-[10px] uppercase text-slate-500 font-bold mb-1">{p.stat2Label || 'Metric 2'}</p>
+                                                        <p class="text-lg font-bold text-accent-gold">{p.stat2Value}</p>
+                                                    </div>
+                                                </div>
+                                                <ul class="text-xs text-slate-400 space-y-2">
+                                                    {(p.highlights || []).map((h, i) => (
+                                                        <li key={i} class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px] text-accent-gold">check_circle</span> {h}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ) : (
+                                            <div class="space-y-3 flex-1">
+                                                <div class="flex flex-wrap gap-2 mb-2">
+                                                    {p.tags.map(tag => (
+                                                        <span key={tag} class="px-2 py-0.5 bg-accent-cyan/10 border border-accent-cyan/20 text-accent-cyan text-[10px] rounded">{tag}</span>
+                                                    ))}
+                                                </div>
+                                                {p.layers && (
+                                                    <div class="relative p-4 bg-gradient-to-b from-slate-900/80 to-slate-800/50 rounded-xl border border-white/10 backdrop-blur-sm">
+                                                        <div class="absolute top-2 right-2 text-[8px] text-slate-500 uppercase tracking-wider">Model Architecture</div>
+                                                        <div class="flex flex-col items-center gap-0">
+                                                            {p.layers.map((layer, i) => (
+                                                                <React.Fragment key={layer}>
+                                                                    <div
+                                                                        class={`relative px-6 py-2 rounded-xl text-[11px] font-bold text-center min-w-[130px] transform transition-all duration-300 hover:scale-105 ${i === 0 ? 'bg-gradient-to-r from-slate-600/60 to-slate-500/60 border border-slate-400/50 text-white shadow-lg shadow-slate-500/20' :
+                                                                            layer.includes('LSTM') ? 'bg-gradient-to-r from-sky-600/40 to-blue-500/40 border border-sky-400/60 text-sky-300 shadow-lg shadow-sky-500/30' :
+                                                                                layer.includes('Dropout') ? 'bg-gradient-to-r from-rose-600/40 to-pink-500/40 border border-rose-400/60 text-rose-300 shadow-lg shadow-rose-500/30' :
+                                                                                    layer.includes('Dense') ? 'bg-gradient-to-r from-emerald-600/40 to-teal-500/40 border border-emerald-400/60 text-emerald-300 shadow-lg shadow-emerald-500/30' :
+                                                                                        'bg-gradient-to-r from-amber-600/40 to-yellow-500/40 border border-amber-400/60 text-amber-300 shadow-lg shadow-amber-500/30'
+                                                                            }`}
+                                                                        style={{ animationDelay: `${i * 100}ms` }}
+                                                                    >
+                                                                        <span class="relative z-10">{layer}</span>
+                                                                        <div class={`absolute inset-0 rounded-xl opacity-50 blur-sm ${i === 0 ? 'bg-slate-500/30' :
+                                                                            layer.includes('LSTM') ? 'bg-sky-500/30' :
+                                                                                layer.includes('Dropout') ? 'bg-rose-500/30' :
+                                                                                    layer.includes('Dense') ? 'bg-emerald-500/30' :
+                                                                                        'bg-amber-500/30'
+                                                                            }`}></div>
+                                                                    </div>
+                                                                    {i < p.layers.length - 1 && (
+                                                                        <div class="relative h-4 flex flex-col items-center justify-center">
+                                                                            <div class="w-[2px] h-full bg-gradient-to-b from-accent-cyan/60 to-accent-cyan/20"></div>
+                                                                            <div class="absolute w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[5px] border-t-accent-cyan/60" style={{ bottom: '-2px' }}></div>
+                                                                        </div>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            ))}
+                                                        </div>
+                                                        <div class="mt-3 pt-3 border-t border-white/5 grid grid-cols-3 gap-2 text-center">
+                                                            <div class="flex flex-col items-center">
+                                                                <span class="material-symbols-outlined text-[14px] text-sky-400 mb-1">database</span>
+                                                                <span class="text-[10px] font-bold text-white">6,000+</span>
+                                                                <span class="text-[8px] text-slate-500">Data Points</span>
+                                                            </div>
+                                                            <div class="flex flex-col items-center">
+                                                                <span class="material-symbols-outlined text-[14px] text-emerald-400 mb-1">check_circle</span>
+                                                                <span class="text-[10px] font-bold text-white">97.88%</span>
+                                                                <span class="text-[8px] text-slate-500">Accuracy</span>
+                                                            </div>
+                                                            <div class="flex flex-col items-center">
+                                                                <span class="material-symbols-outlined text-[14px] text-amber-400 mb-1">analytics</span>
+                                                                <span class="text-[10px] font-bold text-white">2.12%</span>
+                                                                <span class="text-[8px] text-slate-500">MAPE</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                {p.techDetails && (
+                                                    <div class="space-y-3 p-4 bg-gradient-to-br from-slate-900/80 via-slate-800/50 to-slate-900/80 rounded-xl border border-white/10 backdrop-blur-sm">
+                                                        <div class="flex items-center gap-2 mb-3">
+                                                            <span class="material-symbols-outlined text-accent-gold text-[14px]">school</span>
+                                                            <span class="text-[10px] font-bold text-accent-gold uppercase tracking-wider">Key Learnings</span>
+                                                        </div>
+                                                        {p.techDetails.map((detail, i) => (
+                                                            <div key={i} class="flex items-start gap-3 p-3 bg-white/5 rounded-lg border border-white/5 hover:border-accent-cyan/30 hover:bg-accent-cyan/5 transition-all duration-300 group">
+                                                                <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br from-accent-cyan/30 to-accent-cyan/10 flex items-center justify-center border border-accent-cyan/30 group-hover:from-accent-cyan/50 group-hover:to-accent-cyan/20 transition-all">
+                                                                    <span class="text-[10px] font-bold text-accent-cyan">{i + 1}</span>
+                                                                </div>
+                                                                <p class="text-[12px] text-slate-200 leading-relaxed flex-1">{detail}</p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                        {p.caseStudyUrl && p.caseStudyUrl !== '#' && (
+                                            <a href={p.caseStudyUrl} target="_blank" rel="noopener noreferrer" class="mt-6 w-full py-2 border border-white/10 rounded-lg text-xs font-bold hover:bg-white hover:text-black transition-all block text-center">
+                                                View Case Study
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+                    <Footer />
+                </div>
+            );
+        };
+
+        // --- Screen 4: Automation Hub & Tech Arsenal ---
+
+        const AutomationPage = () => {
+            return (
+                <div class="bg-background-dark min-h-screen text-white font-space">
+                    <Navigation />
+                    <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-12 pt-32 flex flex-col gap-12">
+                        <section class="flex flex-col items-center text-center gap-8">
+                            <div class="space-y-3">
+                                <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-white">Automation Engine & Tech Arsenal</h1>
+                                <p class="text-slate-400 max-w-2xl mx-auto text-lg">Fintech-optimized data workflows designed for maximum operational speed and reliability.</p>
+                            </div>
+                            <div class="w-full max-w-5xl bg-surface-dark/40 border border-slate-800 rounded-2xl p-8 relative overflow-hidden">
+                                <div class="absolute top-1/2 left-0 w-full h-[2px] pipeline-gradient -translate-y-1/2 z-0"></div>
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
+                                    <div class="flex flex-col items-center gap-4 group">
+                                        <div class="size-16 rounded-xl bg-[#1d2533] border border-slate-700 flex items-center justify-center text-green-500 group-hover:border-green-500/50 transition-all shadow-xl">
+                                            <span class="material-symbols-outlined text-3xl">table_chart</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="font-bold text-white text-sm">Google Sheets</p>
+                                            <p class="text-slate-500 text-xs uppercase tracking-widest mt-1">Data Source</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-4 group">
+                                        <div class="size-16 rounded-xl bg-[#1d2533] border border-slate-700 flex items-center justify-center text-blue-400 group-hover:border-blue-400/50 transition-all shadow-xl">
+                                            <span class="material-symbols-outlined text-3xl">javascript</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="font-bold text-white text-sm">Apps Script</p>
+                                            <p class="text-slate-500 text-xs uppercase tracking-widest mt-1">Logic Engine</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-4 group">
+                                        <div class="size-16 rounded-xl bg-[#1d2533] border border-slate-700 flex items-center justify-center text-orange-500 group-hover:border-orange-500/50 transition-all shadow-xl">
+                                            <span class="material-symbols-outlined text-3xl">hub</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="font-bold text-white text-sm">n8n</p>
+                                            <p class="text-slate-500 text-xs uppercase tracking-widest mt-1">Workflow Orchestration</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center gap-4 group">
+                                        <div class="size-16 rounded-xl bg-[#1d2533] border border-slate-700 flex items-center justify-center text-primary-alt group-hover:border-primary-alt/50 transition-all shadow-xl">
+                                            <span class="material-symbols-outlined text-3xl">mail</span>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="font-bold text-white text-sm">Email Out</p>
+                                            <p class="text-slate-500 text-xs uppercase tracking-widest mt-1">Delivery</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-12 flex justify-center">
+                                    <div class="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-primary-alt/10 border border-primary-alt/30 backdrop-blur-sm">
+                                        <div class="flex flex-col items-start">
+                                            <span class="text-primary-alt text-2xl font-black leading-none">90%</span>
+                                            <span class="text-[10px] text-primary-alt/80 uppercase font-bold tracking-tighter">Efficiency gain</span>
+                                        </div>
+                                        <div class="h-8 w-[1px] bg-primary-alt/20"></div>
+                                        <p class="text-white text-xs max-w-[140px] leading-tight text-left">Reduced manual processing time by average 4h daily</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-auto md:h-[500px]">
+                            <div class="md:col-span-1 md:row-span-2 bento-card rounded-xl p-6 flex flex-col justify-between items-center text-center">
+                                <div class="w-full text-left">
+                                    <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest">Certification</h3>
+                                    <p class="text-white font-bold text-xl">CFA Level 1</p>
+                                </div>
+                                <div class="relative flex items-center justify-center my-4">
+                                    <svg class="w-32 h-32">
+                                        <circle class="text-slate-800" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-width="8"></circle>
+                                        <circle class="text-accent-gold progress-ring__circle" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-dasharray="339.292" stroke-dashoffset="271.4" stroke-linecap="round" stroke-width="8"></circle>
+                                    </svg>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <span class="text-2xl font-bold text-accent-gold">20%</span>
+                                        <span class="text-[10px] text-slate-500 uppercase font-bold tracking-tight">Progress</span>
+                                    </div>
+                                </div>
+                                <p class="text-slate-400 text-xs italic leading-relaxed">Financial analysis & portfolio management candidate.</p>
+                            </div>
+
+                            <div class="md:col-span-2 md:row-span-1 bento-card rounded-xl p-6">
+                                <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-6">Language Proficiency</h3>
+                                <div class="flex items-center justify-between gap-8 h-full">
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-3xl font-black text-white">IELTS 7.0</span>
+                                        <span class="text-xs text-slate-400 uppercase tracking-wider font-bold">Overall Score</span>
+                                    </div>
+                                    <div class="h-12 w-[1px] bg-white/10"></div>
+                                    <div class="flex flex-col gap-1">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-2xl font-bold text-accent-cyan">8.0</span>
+                                            <span class="material-symbols-outlined text-accent-cyan text-sm">menu_book</span>
+                                        </div>
+                                        <span class="text-xs text-accent-cyan/80 uppercase tracking-wider font-bold">Reading</span>
+                                    </div>
+                                    <div class="h-12 w-[1px] bg-white/10"></div>
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-xs text-slate-500 font-bold uppercase">Certificate</span>
+                                        <span class="text-[10px] text-slate-600">Valid until 2026</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="md:col-span-1 md:row-span-1 bento-card rounded-xl p-6 bg-gradient-to-br from-primary-alt/20 to-transparent flex flex-col justify-between">
+                                <div class="flex justify-between items-start">
+                                    <span class="material-symbols-outlined text-primary-alt">psychology</span>
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-alt text-white uppercase">Specialist</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-bold text-sm leading-tight">Advanced Prompt Engineering</h3>
+                                    <p class="text-slate-400 text-[11px] mt-2 leading-tight">Optimizing LLM outputs for technical documentation and automated trading analysis.</p>
+                                </div>
+                            </div>
+
+                            <div class="md:col-span-3 md:row-span-1 bento-card rounded-xl p-6 flex flex-wrap items-center justify-between gap-6">
+                                <div class="flex flex-col gap-1">
+                                    <h3 class="text-slate-400 text-xs font-bold uppercase tracking-widest">Analytics & Modern IDEs</h3>
+                                    <p class="text-white text-lg font-bold">Standard Tools</p>
+                                </div>
+                                <div class="flex gap-4 items-center flex-wrap">
+                                    <div class="flex items-center gap-3 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                                        <span class="material-symbols-outlined text-[#F2C811]">bar_chart</span>
+                                        <span class="font-bold text-sm">PowerBI</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                                        <span class="material-symbols-outlined text-[#00a2ed]">grid_view</span>
+                                        <span class="font-bold text-sm">Tableau</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                                        <span class="material-symbols-outlined text-sky-400">auto_awesome</span>
+                                        <span class="font-bold text-sm">Cursor</span>
+                                    </div>
+                                    <div class="flex items-center gap-3 px-4 py-2 rounded-lg bg-white/5 border border-white/10">
+                                        <span class="material-symbols-outlined text-purple-400">fluid</span>
+                                        <span class="font-bold text-sm">Antigravity IDE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section >
+                    </main >
+                    <Footer />
+                </div >
+            );
+        };
+
+        // --- Screen 5: Thematic Experience Timeline ---
+
+        const ExperiencePage = () => {
+            return (
+                <div class="bg-background-dark font-lexend text-slate-100 min-h-screen">
+                    <Navigation />
+                    <main class="max-w-7xl mx-auto px-6 py-12 pt-32">
+                        <div class="mb-16 text-center">
+                            <div class="flex items-center justify-center gap-2 text-xs text-slate-500 mb-6 uppercase tracking-widest font-bold">
+                                <span class="hover:text-white transition-colors cursor-pointer">Home</span>
+                                <span class="material-symbols-outlined text-[10px]">chevron_right</span>
+                                <span class="text-gold">Journey</span>
+                            </div>
+                            <h2 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight text-white">Professional <span class="text-gold">Chapters</span></h2>
+                            <p class="text-slate-400 max-w-2xl mx-auto leading-relaxed text-lg">
+                                A strategic journey mapping academic foundations, leadership development, and technical specialization.
+                            </p>
+                        </div>
+
+                        <div class="relative space-y-24">
+                            <div class="absolute left-6 md:left-6 top-0 bottom-0 w-px bg-gradient-to-b from-gold/30 via-primary-alt/30 to-neon-cyan/30 hidden md:block"></div>
+
+                            <section class="relative pl-12">
+                                <div class="absolute -left-3 top-0 w-6 h-6 bg-gold/20 border border-gold/40 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.3)] hidden md:flex">
+                                    <div class="w-2 h-2 bg-gold rounded-full"></div>
+                                </div>
+                                <div class="mb-10">
+                                    <h3 class="text-2xl font-bold text-white mb-1">Academic Foundations</h3>
+                                    <p class="text-sm text-slate-500 font-medium">Setting the stage for global economic analysis</p>
+                                </div>
+                                <div class="glass-card-navy-gold rounded-3xl overflow-hidden p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center relative group">
+                                    <div class="w-40 h-40 rounded-2xl flex items-center justify-center p-2 shrink-0 overflow-hidden">
+                                        <img alt="FTU Logo" class="w-full h-auto" src="./ftu-logo.png" />
+                                    </div>
+                                    <div class="flex-1 space-y-8 w-full">
+                                        <div>
+                                            <div class="flex flex-wrap items-center gap-3 mb-3">
+                                                <span class="bg-primary-alt/20 text-neon-cyan text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded border border-neon-cyan/20">Principal Anchor</span>
+                                                <span class="text-slate-400 text-sm font-bold">2024 — 2028</span>
+                                            </div>
+                                            <h3 class="text-4xl font-extrabold text-white mb-2">Foreign Trade University (FTU)</h3>
+                                            <p class="text-xl text-slate-300">Bachelor of International Economics — <span class="text-neon-cyan font-semibold border border-neon-cyan/40 px-2 py-0.5 rounded text-lg uppercase">K63 SOPHOMORE</span></p>
+                                        </div>
+                                        <div class="space-y-4 bg-[#0d1626] p-8 rounded-2xl border border-white/5">
+                                            <div class="flex justify-between items-center">
+                                                <div class="flex items-center gap-3">
+                                                    <span class="material-symbols-outlined text-gold text-lg">verified</span>
+                                                    <span class="font-bold text-[10px] text-slate-200 uppercase tracking-[0.2em]">CFA Level 1 Preparation</span>
+                                                </div>
+                                                <span class="text-gold font-black text-xs">20% PROGRESS</span>
+                                            </div>
+                                            <div class="h-2 w-full bg-slate-900 rounded-full overflow-hidden border border-white/5">
+                                                <div class="h-full bg-gradient-to-r from-gold via-yellow-500 to-gold rounded-full" style={{ width: '20%' }}></div>
+                                            </div>
+                                            <div class="flex justify-between text-[9px] text-slate-500 uppercase tracking-[0.1em] font-bold">
+                                                <span>Core Focus: Ethics & Quantitative Methods</span>
+                                                <span>Projected Milestone: August 2026</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="relative pl-12">
+                                <div class="absolute -left-3 top-0 w-6 h-6 bg-primary-alt/20 border border-primary-alt/40 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(17,82,212,0.3)] hidden md:flex">
+                                    <div class="w-2 h-2 bg-primary-alt rounded-full"></div>
+                                </div>
+                                <div class="mb-10">
+                                    <h3 class="text-2xl font-bold text-white mb-1">Leadership & HR Roles</h3>
+                                    <p class="text-sm text-slate-500 font-medium">Orchestrating talent and organizational growth</p>
+                                </div>
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                    <div class="glass-card-navy-gold p-8 rounded-2xl hover:border-gold/40 transition-all border-t-2 border-t-gold/50 flex flex-col group relative overflow-hidden">
+                                        <div class="absolute -right-4 -top-4 opacity-[0.03] pointer-events-none">
+                                            <span class="material-symbols-outlined text-white text-[140px]">military_tech</span>
+                                        </div>
+                                        <div class="flex items-start justify-between mb-8 relative z-10">
+                                            <div class="flex flex-col">
+                                                <span class="text-gold text-[9px] font-black uppercase tracking-[0.2em] mb-3">07/2025 — Present</span>
+                                                <h4 class="font-bold text-white text-2xl leading-tight mb-2">Internal Vice President & Head of HR</h4>
+                                                <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.15em]">Research Club for Students (RCS)</p>
+                                            </div>
+                                            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center border border-gold/20 shrink-0">
+                                                <span class="material-symbols-outlined text-gold text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-slate-400 leading-relaxed mb-10 flex-grow relative z-10">
+                                            Orchestrating organizational restructuring and talent development strategies. Leveraged a strong <span class="text-white font-semibold">R&D background</span> to implement data-driven performance metrics and streamline internal operations for <span class="text-gold font-bold">50+ active members</span>.
+                                        </p>
+                                        <div class="flex flex-wrap gap-2 pt-6 border-t border-white/5 relative z-10">
+                                            <span class="text-[9px] bg-gold/5 border border-gold/20 text-gold/80 px-3 py-1 rounded font-bold uppercase tracking-wider">Strategic Planning</span>
+                                            <span class="text-[9px] bg-gold/5 border border-gold/20 text-gold/80 px-3 py-1 rounded font-bold uppercase tracking-wider">Talent Acquisition</span>
+                                        </div>
+                                    </div>
+                                    <div class="glass-card-navy-gold p-8 rounded-2xl border border-white/5 hover:bg-white/5 transition-all flex flex-col group border-t-2 border-t-slate-500/30">
+                                        <div class="mb-8">
+                                            <span class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] mb-3 block">Nov 14, 2024 — Present</span>
+                                            <div class="flex items-center gap-4">
+                                                <div class="p-3 bg-white/5 rounded-xl border border-white/10">
+                                                    <span class="material-symbols-outlined text-slate-400 text-2xl">sports_tennis</span>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-bold text-white text-xl">Human Resources (HR)</h4>
+                                                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">FTU2 Badminton Team</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-slate-400 leading-relaxed mb-10 flex-grow">
+                                            Fostering team culture and managing member development for the university's premier badminton squad, focusing on recruitment and engagement strategies.
+                                        </p>
+                                        <div class="mt-auto pt-6 border-t border-white/5">
+                                            <span class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em]">Culture & Talent Pipeline</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="relative pl-12">
+                                <div class="absolute -left-3 top-0 w-6 h-6 bg-neon-cyan/20 border border-neon-cyan/40 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(0,245,255,0.3)] hidden md:flex">
+                                    <div class="w-2 h-2 bg-neon-cyan rounded-full"></div>
+                                </div>
+                                <div class="mb-10">
+                                    <h3 class="text-2xl font-bold text-white mb-1">Data Science Specialization</h3>
+                                    <p class="text-sm text-slate-500 font-medium">Bridging mathematics and business intelligence</p>
+                                </div>
+                                <div class="glass-card-navy-gold p-0 rounded-3xl overflow-hidden border-t-2 border-t-neon-cyan/50 shadow-[0_0_40px_-12px_rgba(0,245,255,0.1)]">
+                                    <div class="p-8 md:p-12">
+                                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+                                            <div class="flex items-center gap-5">
+                                                <span class="material-symbols-outlined text-neon-cyan bg-neon-cyan/10 p-4 rounded-2xl border border-neon-cyan/20 text-3xl">database</span>
+                                                <div>
+                                                    <span class="text-neon-cyan text-[10px] font-black uppercase tracking-[0.3em]">Nov 2024 — Present</span>
+                                                    <h4 class="font-extrabold text-white text-3xl uppercase tracking-tight">Applied Math & Data Science (<span class="text-gold">MDS</span>)</h4>
+                                                    <p class="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Business Intelligence Specialist</p>
+                                                </div>
+                                            </div>
+                                            <div class="hidden md:block">
+                                                <span class="text-[10px] bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan px-4 py-2 rounded font-black uppercase tracking-widest">BI ARCHITECT</span>
+                                            </div>
+                                        </div>
+                                        <div class="grid md:grid-cols-2 gap-16">
+                                            <div class="space-y-8">
+                                                <p class="text-base text-slate-300 leading-relaxed">
+                                                    Analyzed banking customer data to identify behavioral patterns and predict strategic segments. Developed data-driven solutions for customer retention and acquisition strategies.
+                                                </p>
+                                                <ul class="space-y-5">
+                                                    <li class="flex items-start gap-4 text-sm text-slate-400">
+                                                        <span class="material-symbols-outlined text-neon-cyan text-xl shrink-0">check_circle</span>
+                                                        <span>Built interactive Power BI dashboards for customer segmentation and churn analysis.</span>
+                                                    </li>
+                                                    <li class="flex items-start gap-4 text-sm text-slate-400">
+                                                        <span class="material-symbols-outlined text-neon-cyan text-xl shrink-0">check_circle</span>
+                                                        <span>Developed Python models to predict customer behavior and optimize marketing strategies.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="bg-[#0d1626] rounded-2xl p-8 border border-white/5">
+                                                <h5 class="text-[10px] font-black text-neon-cyan uppercase tracking-[0.3em] mb-10 border-b border-white/5 pb-5">Technical Mastery Portfolio</h5>
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-10 gap-x-8">
+                                                    <div class="flex items-center gap-4">
+                                                        <div class="p-2.5 bg-neon-cyan/5 rounded-lg border border-neon-cyan/10">
+                                                            <span class="material-symbols-outlined text-neon-cyan text-xl">storage</span>
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-[11px] text-slate-200 font-bold tracking-wider uppercase">SQL Database</span>
+                                                            <p class="text-[9px] text-slate-500 font-medium mt-0.5 uppercase">Advanced Querying</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center gap-4">
+                                                        <div class="p-2.5 bg-neon-cyan/5 rounded-lg border border-neon-cyan/10">
+                                                            <span class="material-symbols-outlined text-neon-cyan text-xl">table_chart</span>
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-[11px] text-slate-200 font-bold tracking-wider uppercase">Excel Pivot</span>
+                                                            <p class="text-[9px] text-slate-500 font-medium mt-0.5 uppercase">Complex Modeling</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center gap-4">
+                                                        <div class="p-2.5 bg-neon-cyan/5 rounded-lg border border-neon-cyan/10">
+                                                            <span class="material-symbols-outlined text-neon-cyan text-xl">bar_chart</span>
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-[11px] text-slate-200 font-bold tracking-wider uppercase">Power BI</span>
+                                                            <p class="text-[9px] text-slate-500 font-medium mt-0.5 uppercase">Interactive Dashboards</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex items-center gap-4">
+                                                        <div class="p-2.5 bg-neon-cyan/5 rounded-lg border border-neon-cyan/10">
+                                                            <span class="material-symbols-outlined text-neon-cyan text-xl">function</span>
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-[11px] text-slate-200 font-bold tracking-wider uppercase">R&D Analytics</span>
+                                                            <p class="text-[9px] text-slate-500 font-medium mt-0.5 uppercase">Data-Driven Insights</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                    <Footer />
+                </div>
+            );
+        };
+
+        const App = () => {
+            const ScrollToTop = () => {
+                const { pathname } = useLocation();
+                useEffect(() => {
+                    window.scrollTo(0, 0);
+                }, [pathname]);
+                return null;
+            };
+
+            return (
+                <MemoryRouter>
+                    <ScrollToTop />
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/vault" element={<VaultPage />} />
+                        <Route path="/automation" element={<AutomationPage />} />
+                        <Route path="/experience" element={<ExperiencePage />} />
+                        <Route path="/contact" element={<ExperiencePage />} /> {/* Reusing experience for contact in this prototype */}
+                    </Routes>
+                </MemoryRouter>
+            );
+        };
+
+        const container = document.getElementById('root');
+        const root = createRoot(container);
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
